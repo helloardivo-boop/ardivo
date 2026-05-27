@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARDIVO | B2B 커피 솔루션</title>
+  <meta name="description" content="아르디보 — 카페 창업과 운영을 위한 B2B 커피 솔루션." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0F1F3D;
+      --green-accent: #2A8F60;
+      --green-bright: #34B87A;
+      --white: #FFFFFF;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      overflow: hidden;
+    }
+
+    /* 영상이 전체 화면을 채움 */
+    .hero {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      filter: brightness(0.5);
+    }
+    /* 영상 없을 때 대체 배경 */
+    .hero-poster {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      filter: brightness(0.5);
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(15,31,61,0.55) 0%,
+        rgba(15,31,61,0.1) 40%,
+        rgba(15,31,61,0.6) 100%
+      );
+      z-index: 1;
+    }
+
+    /* NAV */
+    nav {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.75rem 2.5rem;
+    }
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 5px;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .logo span { color: var(--green-bright); }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta {
+      background: var(--green-accent);
+      color: #fff;
+      border: none;
+      padding: 9px 22px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: #1f6e48; }
+
+    /* 중앙 텍스트 */
+    .hero-content {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 1.5rem;
+    }
+    .hero-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      color: var(--green-bright);
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+      font-size: clamp(30px, 5vw, 54px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      margin-bottom: 2rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--green-bright);
+    }
+    .hero-cta {
+      background: var(--green-accent);
+      color: #fff;
+      border: none;
+      padding: 14px 36px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .hero-cta:hover { background: #1f6e48; }
+
+    /* 하단 태그라인 */
+    .hero-bottom {
+      position: absolute;
+      bottom: 2rem;
+      left: 0; right: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      padding: 0 2rem;
+    }
+    .bottom-item {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.55);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .bottom-item::before {
+      content: '';
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--green-bright);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 1.25rem; }
+      .nav-links { display: none; }
+      .hero-bottom { gap: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+
+    <!-- 영상 — 본인 영상 파일로 교체: src="video/ardivo.mp4" -->
+    <video class="hero-video" autoplay muted loop playsinline
+      poster="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=80">
+      <source src="video/ardivo.mp4" type="video/mp4" />
+    </video>
+
+    <div class="hero-overlay"></div>
+
+    <!-- NAV -->
+    <nav>
+      <a href="#" class="logo">ARDI<span>V</span>O</a>
+      <ul class="nav-links">
+        <li><a href="about.html">회사소개</a></li>
+        <li><a href="products.html">상품</a></li>
+        <li><a href="contact.html">문의</a></li>
+      </ul>
+      <a href="http://pf.kakao.com/_yBGxjX" target="_blank" class="nav-cta">납품 문의</a>
+    </nav>
+
+    <!-- 중앙 문구 -->
+    <div class="hero-content">
+      <span class="hero-tag">B2B Coffee Solution Provider</span>
+      <h1>카페 운영에 필요한 모든 것<br><em>한 곳에서</em></h1>
+      <a href="http://pf.kakao.com/_yBGxjX" target="_blank" class="hero-cta">납품 문의하기</a>
+    </div>
+
+    <!-- 하단 한 줄 -->
+    <div class="hero-bottom">
+      <span class="bottom-item">원두 커스텀 제조</span>
+      <span class="bottom-item">커피머신 판매·설치</span>
+      <span class="bottom-item">부자재·냉동생지 납품</span>
+      <span class="bottom-item">인테리어·컨설팅</span>
+      <span class="bottom-item">UCEI 교육</span>
+    </div>
+
+  </section>
+
+</body>
+</html>
