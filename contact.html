@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARDIVO | 문의</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:   #0A0A0A;
+      --black2:  #111111;
+      --black3:  #1A1A1A;
+      --gold:    #C9A84C;
+      --gold2:   #E8C96A;
+      --gold3:   #8B6914;
+      --silver:  #C0C0C0;
+      --silver2: #E8E8E8;
+      --silver3: #888888;
+      --white:   #F5F5F5;
+      --border:  rgba(201,168,76,0.15);
+    }
+    html, body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2.5rem;
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .logo-img { width: 32px; height: 32px; object-fit: contain; }
+    .logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      color: var(--white);
+    }
+    .logo-text span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--silver3);
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-cta {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold3);
+      padding: 8px 22px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--black); }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 8rem 2.5rem 4rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--black2);
+    }
+    .page-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 5px;
+      color: var(--gold3);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .page-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+    }
+    .page-title em { font-style: normal; color: var(--gold); }
+    .page-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--silver3);
+      line-height: 1.8;
+    }
+
+    /* CONTACT GRID */
+    .contact-wrap {
+      padding: 4rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    @media (max-width: 720px) {
+      .contact-wrap { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    /* 왼쪽 — 연락처 카드들 */
+    .contact-cards { display: flex; flex-direction: column; gap: 14px; }
+    .contact-card {
+      background: var(--black2);
+      border: 1px solid var(--border);
+      padding: 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .contact-card:hover { border-color: var(--gold); }
+    .contact-icon {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .icon-kakao { background: #FEE500; }
+    .icon-email { background: var(--black3); border: 1px solid var(--border); }
+    .icon-phone { background: var(--black3); border: 1px solid var(--border); }
+    .contact-card-info {}
+    .contact-card-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      color: var(--gold3);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .contact-card-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 3px;
+    }
+    .contact-card-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--silver3);
+    }
+
+    /* 안내 박스 */
+    .info-box {
+      background: var(--black2);
+      border: 1px solid var(--border);
+      padding: 1.75rem;
+      margin-top: 14px;
+    }
+    .info-box-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+    }
+    .info-list { display: flex; flex-direction: column; gap: 8px; }
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--silver3);
+      line-height: 1.6;
+    }
+    .info-item::before {
+      content: '';
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--gold3);
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    /* 오른쪽 — 문의 폼 */
+    .form-wrap {
+      background: var(--black2);
+      border: 1px solid var(--border);
+      padding: 2rem;
+    }
+    .form-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+    .form-sub {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--silver3);
+      margin-bottom: 1.75rem;
+    }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--silver3);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: var(--black3);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white);
+      padding: 11px 14px;
+      font-size: 13px;
+      font-family: 'Noto Sans KR', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--gold3);
+    }
+    .form-input::placeholder, .form-textarea::placeholder {
+      color: rgba(255,255,255,0.2);
+    }
+    .form-select { cursor: pointer; }
+    .form-select option { background: var(--black3); }
+    .form-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .btn-submit {
+      width: 100%;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover { background: var(--gold2); }
+    .form-notice {
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.25);
+      margin-top: 10px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      padding: 1.75rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      color: var(--silver3);
+    }
+    .footer-logo span { color: var(--gold3); }
+    .footer-info {
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.25);
+      line-height: 1.7;
+      text-align: right;
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 1.25rem; }
+      .nav-links { display: none; }
+      .page-header { padding: 6rem 1.25rem 3rem; }
+      .contact-wrap { padding: 2.5rem 1.25rem; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { padding: 1.5rem 1.25rem; }
+      .footer-info { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo-wrap">
+      <img class="logo-img" src="logo.png" alt="ARDIVO 로고" />
+      <span class="logo-text">ARDI<span>V</span>O</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="about.html">회사소개</a></li>
+      <li><a href="products.html">상품</a></li>
+      <li><a href="contact.html" class="active">문의</a></li>
+    </ul>
+    <a href="http://pf.kakao.com/_yBGxjX" target="_blank" class="nav-cta">납품 문의</a>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <p class="page-tag">Contact</p>
+    <h1 class="page-title">납품 및 <em>도매 문의</em></h1>
+    <p class="page-sub">사업자 전용으로 운영합니다. 카카오톡 또는 이메일로 문의주시면 빠르게 안내드립니다.</p>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-wrap">
+
+    <!-- 왼쪽 -->
+    <div>
+      <div class="contact-cards">
+        <a href="http://pf.kakao.com/_yBGxjX" target="_blank" class="contact-card">
+          <div class="contact-icon icon-kakao">💬</div>
+          <div class="contact-card-info">
+            <p class="contact-card-label">Kakao</p>
+            <p class="contact-card-value">카카오톡 채널</p>
+            <p class="contact-card-desc">가장 빠른 문의 방법 · 평일 운영</p>
+          </div>
+        </a>
+        <a href="mailto:hello.ardivo@gmail.com" class="contact-card">
+          <div class="contact-icon icon-email">✉️</div>
+          <div class="contact-card-info">
+            <p class="contact-card-label">Email</p>
+            <p class="contact-card-value">hello.ardivo@gmail.com</p>
+            <p class="contact-card-desc">견적 요청 및 상세 문의</p>
+          </div>
+        </a>
+        <a href="tel:010-3094-8566" class="contact-card">
+          <div class="contact-icon icon-phone">📞</div>
+          <div class="contact-card-info">
+            <p class="contact-card-label">Phone</p>
+            <p class="contact-card-value">010-3094-8566</p>
+            <p class="contact-card-desc">심성보 대표 직통</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="info-box">
+        <p class="info-box-title">문의 전 확인사항</p>
+        <div class="info-list">
+          <p class="info-item">사업자 전용으로 운영합니다. 사업자등록증 확인 후 견적을 안내드립니다.</p>
+          <p class="info-item">세금계산서 발행 가능합니다.</p>
+          <p class="info-item">정기 납품 계약 가능합니다.</p>
+          <p class="info-item">첫 문의 시 취급 품목과 필요 수량을 함께 말씀해 주시면 빠른 안내가 가능합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 오른쪽 — 문의 폼 -->
+    <div class="form-wrap">
+      <p class="form-title">온라인 문의</p>
+      <p class="form-sub">문의 내용을 남겨주시면 확인 후 연락드립니다</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">상호명</label>
+          <input class="form-input" type="text" placeholder="카페 또는 회사명" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">담당자명</label>
+          <input class="form-input" type="text" placeholder="성함" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">연락처</label>
+        <input class="form-input" type="tel" placeholder="010-0000-0000" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">문의 품목</label>
+        <select class="form-select">
+          <option value="">선택해주세요</option>
+          <option>커스텀 원두</option>
+          <option>커피머신</option>
+          <option>부자재</option>
+          <option>냉동생지</option>
+          <option>인테리어</option>
+          <option>컨설팅</option>
+          <option>기타</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">문의 내용</label>
+        <textarea class="form-textarea" placeholder="필요한 품목, 수량, 납품 주기 등 자세히 적어주시면 빠른 안내가 가능합니다."></textarea>
+      </div>
+      <button class="btn-submit" onclick="alert('문의가 접수되었습니다. 빠른 시일 내 연락드리겠습니다.')">문의 보내기</button>
+      <p class="form-notice">사업자 전용 서비스입니다. 개인 구매는 별도 문의 바랍니다.</p>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">ARDI<span>V</span>O</div>
+    <div class="footer-info">
+      아르디보 · 사업자 전용 도매 공급 · UCEI 커피 교육<br>
+      © 2025 ARDIVO. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>
