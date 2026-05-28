@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARDIVO | 회사소개</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:   #0A0A0A;
+      --black2:  #111111;
+      --black3:  #1A1A1A;
+      --gold:    #C9A84C;
+      --gold2:   #E8C96A;
+      --gold3:   #8B6914;
+      --silver:  #C0C0C0;
+      --silver2: #E8E8E8;
+      --silver3: #888888;
+      --white:   #F5F5F5;
+      --border:  rgba(201,168,76,0.15);
+    }
+    html, body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2.5rem;
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .logo-img { width: 32px; height: 32px; object-fit: contain; }
+    .logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      color: var(--white);
+    }
+    .logo-text span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--silver3);
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-cta {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold3);
+      padding: 8px 22px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--black); }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 8rem 2.5rem 4rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--black2);
+    }
+    .page-header-inner { max-width: 900px; }
+    .page-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 5px;
+      color: var(--gold3);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .page-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+    }
+    .page-title em { font-style: normal; color: var(--gold); }
+    .page-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--silver3);
+      line-height: 1.8;
+      max-width: 560px;
+    }
+
+    /* SECTION */
+    .section { padding: 4rem 2.5rem; border-bottom: 1px solid var(--border); }
+    .section-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      color: var(--gold3);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-size: clamp(20px, 2.5vw, 26px);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 2rem;
+      letter-spacing: -0.3px;
+    }
+    .section-title em { font-style: normal; color: var(--gold); }
+
+    /* INTRO — 텍스트 + 이미지 */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    @media (max-width: 720px) {
+      .intro-grid { grid-template-columns: 1fr; }
+    }
+    .intro-text p {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--silver3);
+      line-height: 1.9;
+      margin-bottom: 1.25rem;
+    }
+    .intro-text p:last-child { margin-bottom: 0; }
+    .intro-text strong { color: var(--white); font-weight: 600; }
+    .intro-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      filter: brightness(0.8) saturate(0.7);
+      border: 1px solid var(--border);
+    }
+
+    /* STATS */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+    }
+    @media (max-width: 640px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .stat-card {
+      padding: 2rem 1.5rem;
+      border-right: 1px solid var(--border);
+      text-align: center;
+    }
+    .stat-card:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--silver3);
+      line-height: 1.5;
+    }
+
+    /* STRENGTHS */
+    .strengths-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 640px) {
+      .strengths-grid { grid-template-columns: 1fr; }
+    }
+    .strength-card {
+      background: var(--black2);
+      border: 1px solid var(--border);
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .strength-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--gold);
+    }
+    .strength-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold3);
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+    .strength-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .strength-text {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--silver3);
+      line-height: 1.7;
+    }
+
+    /* HISTORY */
+    .history-list { display: flex; flex-direction: column; gap: 0; }
+    .history-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 2rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      align-items: start;
+    }
+    .history-item:last-child { border-bottom: none; }
+    .history-year {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 1px;
+      padding-top: 2px;
+    }
+    .history-content-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .history-content-text {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--silver3);
+      line-height: 1.6;
+    }
+
+    /* REGIONS */
+    .regions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 640px) {
+      .regions-grid { grid-template-columns: 1fr; }
+    }
+    .region-card {
+      background: var(--black2);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+    .region-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .region-text {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--silver3);
+      line-height: 1.7;
+    }
+
+    /* CTA */
+    .cta-bar {
+      background: var(--black3);
+      padding: 3rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .cta-title { font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .cta-sub { font-size: 13px; font-weight: 300; color: var(--silver3); }
+    .cta-btns { display: flex; gap: 10px; }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      padding: 12px 28px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--silver2);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 12px 28px;
+      font-size: 13px;
+      font-weight: 400;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      padding: 1.75rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      color: var(--silver3);
+    }
+    .footer-logo span { color: var(--gold3); }
+    .footer-info {
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.25);
+      line-height: 1.7;
+      text-align: right;
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 1.25rem; }
+      .nav-links { display: none; }
+      .section { padding: 2.5rem 1.25rem; }
+      .page-header { padding: 6rem 1.25rem 3rem; }
+      .cta-bar { padding: 2rem 1.25rem; }
+      footer { padding: 1.5rem 1.25rem; }
+      .footer-info { text-align: left; }
+      .stat-card { border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo-wrap">
+      <img class="logo-img" src="logo.png" alt="ARDIVO 로고" />
+      <span class="logo-text">ARDI<span>V</span>O</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="about.html" class="active">회사소개</a></li>
+      <li><a href="products.html">상품</a></li>
+      <li><a href="contact.html">문의</a></li>
+    </ul>
+    <a href="http://pf.kakao.com/_yBGxjX" target="_blank" class="nav-cta">납품 문의</a>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-tag">About Ardivo</p>
+      <h1 class="page-title">카페의 <em>첫 번째 파트너</em></h1>
+      <p class="page-sub">15년 현장 경력의 커피 전문가가 직접 운영합니다. 머신 엔지니어, 카페 컨설턴트, 원두 제조업까지 — 커피 비즈니스의 처음과 끝을 경험했습니다.</p>
+    </div>
+  </div>
+
+  <!-- 소개 -->
+  <section class="section">
+    <p class="section-tag">Introduction</p>
+    <h2 class="section-title">현장을 아는 사람이 <em>만든 회사</em></h2>
+    <div class="intro-grid">
+      <div class="intro-text">
+        <p>아르디보는 <strong>커피머신 엔지니어 출신 대표</strong>가 직접 운영하는 B2B 커피 솔루션 회사입니다. 단순히 물건을 파는 것이 아니라, 카페 창업부터 운영까지 실질적인 도움을 드립니다.</p>
+        <p>15년간 100여 곳의 머신 설치와 지역 상권 컨설팅을 진행하며 쌓아온 경험을 바탕으로, 원두 커스텀 제조부터 인테리어, 부자재 납품까지 카페에 필요한 모든 것을 한 곳에서 해결할 수 있습니다.</p>
+        <p><strong>사업자 전용</strong>으로 운영하며, 세금계산서 발행 및 정기 납품 계약이 가능합니다.</p>
+      </div>
+      <img class="intro-img"
+        src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80"
+        alt="아르디보 소개 이미지" />
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section">
+    <p class="section-tag">Numbers</p>
+    <h2 class="section-title"><em>숫자로</em> 증명하는 전문성</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num">15년</div>
+        <div class="stat-label">커피 업계<br>현장 경력</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">100+</div>
+        <div class="stat-label">커피머신<br>설치 납품</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3개</div>
+        <div class="stat-label">지역상권<br>대형 컨설팅</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">UCEI</div>
+        <div class="stat-label">커피 교육<br>공인 자격</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRENGTHS -->
+  <section class="section">
+    <p class="section-tag">Strengths</p>
+    <h2 class="section-title">아르디보를 <em>선택하는 이유</em></h2>
+    <div class="strengths-grid">
+      <div class="strength-card">
+        <p class="strength-num">01</p>
+        <p class="strength-title">엔지니어 출신, 머신을 가장 잘 압니다</p>
+        <p class="strength-text">커피머신 엔지니어로 시작한 대표가 직접 판매·설치·유지보수까지 책임집니다. 고장 났을 때 가장 빠르게 해결할 수 있는 파트너입니다.</p>
+      </div>
+      <div class="strength-card">
+        <p class="strength-num">02</p>
+        <p class="strength-title">원두 커스텀 제조 직영</p>
+        <p class="strength-text">카페 콘셉트와 타겟에 맞는 블렌딩을 직접 개발합니다. 자체 로스팅 직영 제조로 품질과 가격 모두 경쟁력 있습니다.</p>
+      </div>
+      <div class="strength-card">
+        <p class="strength-num">03</p>
+        <p class="strength-title">창업과 운영, 양쪽 다 압니다</p>
+        <p class="strength-text">100여 곳의 머신 설치 경험과 지역 상권 컨설팅 실전 경험을 보유하고 있습니다. 창업 기획부터 수익 구조 설계까지 함께합니다.</p>
+      </div>
+      <div class="strength-card">
+        <p class="strength-num">04</p>
+        <p class="strength-title">까다로운 곳도 선택한 품질</p>
+        <p class="strength-text">까다로운 고객이 많은 커뮤니티센터에 맞춤 원두를 공급하고 있으며, 많은 사람들이 이용하는 휴게소에서도 선택받은 상품을 취급하고 있습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="section">
+    <p class="section-tag">History</p>
+    <h2 class="section-title">아르디보의 <em>발자취</em></h2>
+    <div class="history-list">
+      <div class="history-item">
+        <span class="history-year">커피머신<br>엔지니어</span>
+        <div>
+          <p class="history-content-title">커피머신 설치 및 유지보수 100+ 곳</p>
+          <p class="history-content-text">상업용 커피머신 전문 엔지니어로 현장 경력을 쌓으며 카페 운영의 기술적 기반을 다졌습니다.</p>
+        </div>
+      </div>
+      <div class="history-item">
+        <span class="history-year">카페<br>컨설턴트</span>
+        <div>
+          <p class="history-content-title">중랑구 · 시흥시 · 청주 지역상권 대형 컨설팅</p>
+          <p class="history-content-text">지역 상권 분석부터 카페 창업 기획, 운영 효율화까지 실전 컨설팅을 진행했습니다.</p>
+        </div>
+      </div>
+      <div class="history-item">
+        <span class="history-year">원두<br>제조업</span>
+        <div>
+          <p class="history-content-title">자체 로스팅 원두 커스텀 제조 사업 운영</p>
+          <p class="history-content-text">카페별 맞춤 블렌딩 개발 및 정기 납품 체계를 구축했습니다.</p>
+        </div>
+      </div>
+      <div class="history-item">
+        <span class="history-year">ARDIVO<br>설립</span>
+        <div>
+          <p class="history-content-title">B2B 커피 솔루션 아르디보 출범</p>
+          <p class="history-content-text">15년 경력을 집약한 통합 솔루션 회사로 원두, 머신, 부자재, 인테리어, 컨설팅을 한 곳에서 제공합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGIONS -->
+  <section class="section">
+    <p class="section-tag">Consulting Areas</p>
+    <h2 class="section-title">함께한 <em>지역 상권</em></h2>
+    <div class="regions-grid">
+      <div class="region-card">
+        <p class="region-name">중랑구 · 시흥시</p>
+        <p class="region-text">지역 상권 분석 및 카페 창업 컨설팅. 상권 특성에 맞는 운영 전략을 제안하고 타겟 분석부터 메뉴 구성, 인테리어까지 함께했습니다.</p>
+      </div>
+      <div class="region-card">
+        <p class="region-name">청주</p>
+        <p class="region-text">지역 농산물을 활용한 메뉴 개발 컨설팅 진행. 지역 특산물과 커피를 접목한 차별화된 메뉴로 경쟁력을 높였습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-bar">
+    <div>
+      <p class="cta-title">납품 및 도매 문의</p>
+      <p class="cta-sub">사업자 전용 · 세금계산서 발행 가능 · 정기 납품 계약</p>
+    </div>
+    <div class="cta-btns">
+      <a href="http://pf.kakao.com/_yBGxjX" target="_blank" class="btn-gold">카카오톡 문의</a>
+      <a href="mailto:hello.ardivo@gmail.com" class="btn-outline">이메일 문의</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">ARDI<span>V</span>O</div>
+    <div class="footer-info">
+      아르디보 · 사업자 전용 도매 공급 · UCEI 커피 교육<br>
+      © 2025 ARDIVO. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>
