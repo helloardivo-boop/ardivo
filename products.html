@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARDIVO | 상품</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:   #0A0A0A;
+      --black2:  #111111;
+      --black3:  #1A1A1A;
+      --gold:    #C9A84C;
+      --gold2:   #E8C96A;
+      --gold3:   #8B6914;
+      --silver:  #C0C0C0;
+      --silver2: #E8E8E8;
+      --silver3: #888888;
+      --white:   #F5F5F5;
+      --border:  rgba(201,168,76,0.15);
+    }
+    html, body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--gold3);
+    }
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .logo-img { width: 52px; height: 52px; object-fit: contain; }
+    .logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 5px;
+      color: var(--white);
+    }
+    .logo-text span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-cta {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold3);
+      padding: 8px 22px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--black); }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 8rem 2.5rem 4rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--black2);
+    }
+    .page-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 5px;
+      color: var(--gold3);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .page-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+    }
+    .page-title em { font-style: normal; color: var(--gold); }
+    .page-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--silver3);
+      line-height: 1.8;
+    }
+
+    /* CATEGORY SECTION */
+    .category { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .category-left {}
+    .category-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      color: var(--gold3);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .category-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .category-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .category-link:hover { color: var(--gold2); }
+
+    /* 가로 스크롤 */
+    .scroll-wrap {
+      overflow-x: auto;
+      padding: 0.5rem 2.5rem 1rem;
+      scrollbar-width: none;
+    }
+    .scroll-wrap::-webkit-scrollbar { display: none; }
+    .scroll-inner {
+      display: flex;
+      gap: 14px;
+      width: max-content;
+    }
+
+    /* 상품 카드 */
+    .product-card {
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--black2);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .product-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+    }
+    .product-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      filter: brightness(0.85) saturate(0.8);
+      display: block;
+    }
+    .product-body { padding: 1rem; }
+    .product-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 2px 8px;
+      margin-bottom: 8px;
+    }
+    .badge-custom { background: rgba(201,168,76,0.15); color: var(--gold); }
+    .badge-b2b { background: rgba(255,255,255,0.06); color: var(--silver3); }
+    .product-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 5px;
+    }
+    .product-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--silver3);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .product-btn {
+      display: block;
+      text-align: center;
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold3);
+      padding: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Noto Sans KR', sans-serif;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .product-btn:hover { background: var(--gold); color: var(--black); }
+
+    /* 더보기 카드 */
+    .more-card {
+      width: 120px;
+      flex-shrink: 0;
+      background: var(--black3);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: border-color 0.2s;
+      min-height: 260px;
+    }
+    .more-card:hover { border-color: var(--gold); }
+    .more-dots {
+      font-size: 22px;
+      color: var(--gold3);
+      letter-spacing: 3px;
+    }
+    .more-text {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--silver3);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* CTA */
+    .cta-bar {
+      background: var(--black3);
+      padding: 3rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .cta-title { font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .cta-sub { font-size: 13px; font-weight: 300; color: var(--silver3); }
+    .cta-btns { display: flex; gap: 10px; }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      padding: 12px 28px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--silver2);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 12px 28px;
+      font-size: 13px;
+      font-weight: 400;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      padding: 1.75rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      color: var(--silver3);
+    }
+    .footer-logo span { color: var(--gold3); }
+    .footer-info {
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.25);
+      line-height: 1.7;
+      text-align: right;
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 1.25rem; }
+      .nav-links { display: none; }
+      .page-header { padding: 6rem 1.25rem 3rem; }
+      .category-header { padding: 0 1.25rem; }
+      .scroll-wrap { padding: 0.5rem 1.25rem 1rem; }
+      .cta-bar { padding: 2rem 1.25rem; }
+      footer { padding: 1.5rem 1.25rem; }
+      .footer-info { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo-wrap">
+      <img class="logo-img" src="logo.png" alt="ARDIVO 로고" />
+      <span class="logo-text">ARDI<span>V</span>O</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="about.html">회사소개</a></li>
+      <li><a href="products.html" class="active">상품</a></li>
+      <li><a href="contact.html">문의</a></li>
+    </ul>
+    <a href="http://pf.kakao.com/_yBGxjX" target="_blank" class="nav-cta">납품 문의</a>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <p class="page-tag">Products</p>
+    <h1 class="page-title">카페에 필요한 모든 것<br><em>아르디보에 있습니다</em></h1>
+    <p class="page-sub">사업자 전용 도매 공급 · 세금계산서 발행 가능 · 정기 납품 계약</p>
+  </div>
+
+  <!-- 원두 -->
+  <div class="category">
+    <div class="category-header">
+      <div class="category-left">
+        <p class="category-tag">Coffee Beans</p>
+        <p class="category-title">커스텀 원두</p>
+      </div>
+      <a href="contact.html" class="category-link">문의하기 →</a>
+    </div>
+    <div class="scroll-wrap">
+      <div class="scroll-inner">
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&q=80" alt="커스텀 블렌드" />
+          <div class="product-body">
+            <span class="product-badge badge-custom">CUSTOM</span>
+            <p class="product-name">커스텀 블렌드</p>
+            <p class="product-desc">카페 콘셉트에 맞는 블렌딩 직접 개발 및 정기 납품</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1497515114629-f71d768fd07c?w=400&q=80" alt="싱글오리진" />
+          <div class="product-body">
+            <span class="product-badge badge-b2b">B2B</span>
+            <p class="product-name">싱글오리진</p>
+            <p class="product-desc">산지별 개성 있는 싱글오리진 원두 납품</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80" alt="디카페인" />
+          <div class="product-body">
+            <span class="product-badge badge-b2b">B2B</span>
+            <p class="product-name">디카페인</p>
+            <p class="product-desc">스위스워터 공법 디카페인 원두 정기 납품</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <a href="contact.html" class="more-card">
+          <span class="more-dots">···</span>
+          <span class="more-text">더 많은 원두<br>문의하기</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 커피머신 -->
+  <div class="category">
+    <div class="category-header">
+      <div class="category-left">
+        <p class="category-tag">Coffee Machine</p>
+        <p class="category-title">커피머신</p>
+      </div>
+      <a href="contact.html" class="category-link">문의하기 →</a>
+    </div>
+    <div class="scroll-wrap">
+      <div class="scroll-inner">
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1510017803434-a899398421b3?w=400&q=80" alt="에스프레소 머신" />
+          <div class="product-body">
+            <span class="product-badge badge-b2b">B2B</span>
+            <p class="product-name">에스프레소 머신</p>
+            <p class="product-desc">상업용 에스프레소 머신 판매·설치·유지보수</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80" alt="그라인더" />
+          <div class="product-body">
+            <span class="product-badge badge-b2b">B2B</span>
+            <p class="product-name">그라인더</p>
+            <p class="product-desc">상업용 그라인더 판매 및 세팅</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=80" alt="전자동 머신" />
+          <div class="product-body">
+            <span class="product-badge badge-b2b">B2B</span>
+            <p class="product-name">전자동 머신</p>
+            <p class="product-desc">편의점·사무실용 전자동 머신 납품</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <a href="contact.html" class="more-card">
+          <span class="more-dots">···</span>
+          <span class="more-text">더 많은 머신<br>문의하기</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 부자재 -->
+  <div class="category">
+    <div class="category-header">
+      <div class="category-left">
+        <p class="category-tag">Supplies</p>
+        <p class="category-title">부자재</p>
+      </div>
+      <a href="contact.html" class="category-link">문의하기 →</a>
+    </div>
+    <div class="scroll-wrap">
+      <div class="scroll-inner">
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80" alt="일회용 컵" />
+          <div class="product-body">
+            <span class="product-badge badge-b2b">B2B</span>
+            <p class="product-name">일회용 컵</p>
+            <p class="product-desc">종이컵, 플라스틱컵, 뚜껑 도매 납품</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1585669051660-9693b7f7b0c0?w=400&q=80" alt="시럽" />
+          <div class="product-body">
+            <span class="product-badge badge-b2b">B2B</span>
+            <p class="product-name">시럽 · 소스</p>
+            <p class="product-desc">바닐라, 카라멜, 헤이즐넛 등 시럽 납품</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="소모품" />
+          <div class="product-body">
+            <span class="product-badge badge-b2b">B2B</span>
+            <p class="product-name">소모품</p>
+            <p class="product-desc">빨대, 냅킨, 위생장갑 등 카페 필수 소모품</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <a href="contact.html" class="more-card">
+          <span class="more-dots">···</span>
+          <span class="more-text">더 많은 부자재<br>문의하기</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 냉동생지 -->
+  <div class="category">
+    <div class="category-header">
+      <div class="category-left">
+        <p class="category-tag">Frozen Dough</p>
+        <p class="category-title">냉동생지</p>
+      </div>
+      <a href="contact.html" class="category-link">문의하기 →</a>
+    </div>
+    <div class="scroll-wrap">
+      <div class="scroll-inner">
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=80" alt="크루아상" />
+          <div class="product-body">
+            <span class="product-badge badge-b2b">B2B</span>
+            <p class="product-name">크루아상</p>
+            <p class="product-desc">베이커리 카페 전용 냉동생지 정기 납품</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&q=80" alt="페이스트리" />
+          <div class="product-body">
+            <span class="product-badge badge-b2b">B2B</span>
+            <p class="product-name">페이스트리</p>
+            <p class="product-desc">다양한 페이스트리 냉동생지 납품</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <a href="contact.html" class="more-card">
+          <span class="more-dots">···</span>
+          <span class="more-text">더 많은 품목<br>문의하기</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 인테리어 -->
+  <div class="category">
+    <div class="category-header">
+      <div class="category-left">
+        <p class="category-tag">Interior</p>
+        <p class="category-title">인테리어</p>
+      </div>
+      <a href="contact.html" class="category-link">문의하기 →</a>
+    </div>
+    <div class="scroll-wrap">
+      <div class="scroll-inner">
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80" alt="카페 인테리어" />
+          <div class="product-body">
+            <span class="product-badge badge-b2b">B2B</span>
+            <p class="product-name">카페 설계·시공</p>
+            <p class="product-desc">카페 특화 인테리어 설계 및 시공 연계</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=400&q=80" alt="리모델링" />
+          <div class="product-body">
+            <span class="product-badge badge-b2b">B2B</span>
+            <p class="product-name">리모델링</p>
+            <p class="product-desc">기존 카페 리모델링 및 공간 개선</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <a href="contact.html" class="more-card">
+          <span class="more-dots">···</span>
+          <span class="more-text">상담 문의<br>하기</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 컨설팅 -->
+  <div class="category">
+    <div class="category-header">
+      <div class="category-left">
+        <p class="category-tag">Consulting</p>
+        <p class="category-title">컨설팅</p>
+      </div>
+      <a href="contact.html" class="category-link">문의하기 →</a>
+    </div>
+    <div class="scroll-wrap">
+      <div class="scroll-inner">
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&q=80" alt="창업 컨설팅" />
+          <div class="product-body">
+            <span class="product-badge badge-custom">전문</span>
+            <p class="product-name">창업 컨설팅</p>
+            <p class="product-desc">상권 분석부터 오픈까지 창업 전 과정 컨설팅</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&q=80" alt="운영 컨설팅" />
+          <div class="product-body">
+            <span class="product-badge badge-custom">전문</span>
+            <p class="product-name">운영 컨설팅</p>
+            <p class="product-desc">수익 구조 개선 및 운영 효율화 컨설팅</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="메뉴 개발" />
+          <div class="product-body">
+            <span class="product-badge badge-custom">전문</span>
+            <p class="product-name">메뉴 개발</p>
+            <p class="product-desc">지역 특산물 활용 차별화 메뉴 개발</p>
+            <a href="contact.html" class="product-btn">문의하기</a>
+          </div>
+        </div>
+        <a href="contact.html" class="more-card">
+          <span class="more-dots">···</span>
+          <span class="more-text">상담 문의<br>하기</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-bar">
+    <div>
+      <p class="cta-title">납품 및 도매 문의</p>
+      <p class="cta-sub">사업자 전용 · 세금계산서 발행 가능 · 정기 납품 계약</p>
+    </div>
+    <div class="cta-btns">
+      <a href="http://pf.kakao.com/_yBGxjX" target="_blank" class="btn-gold">카카오톡 문의</a>
+      <a href="mailto:hello.ardivo@gmail.com" class="btn-outline">이메일 문의</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">ARDI<span>V</span>O</div>
+    <div class="footer-info">
+      아르디보 · 사업자 전용 도매 공급 · UCEI 커피 교육<br>
+      © 2025 ARDIVO. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>
