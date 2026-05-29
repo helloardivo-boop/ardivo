@@ -58,8 +58,8 @@
     display: flex; align-items: center;
     overflow: hidden;
   }
-  .bean-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.55; }
-  .bean-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(6,15,26,0.85) 45%, rgba(6,15,26,0.3) 100%); }
+  .bean-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+  .bean-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(6,15,26,0.75) 40%, rgba(6,15,26,0.1) 100%); }
   .bean-content {
     position: relative; z-index: 2;
     padding: 120px 60px; max-width: 680px;
@@ -109,11 +109,8 @@
 
   /* ─── 03 부자재 : 풀스크린 이미지 ─── */
   .supplies-section { position: relative; min-height: 70vh; display: flex; align-items: center; overflow: hidden; }
-  .supplies-img-wrap { position: relative; z-index: 2; flex-shrink: 0; width: 380px; height: 480px; overflow: hidden; margin-right: 60px; border: 1px solid rgba(192,192,192,0.15); }
-  .supplies-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-  .supplies-img-wrap:hover img { transform: scale(1.03); }
-  .supplies-bg { position: absolute; inset: 0; background-image: url('supplies_img.jpg'); background-size: cover; background-position: center; opacity: 0.6; }
-  .supplies-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(6,15,26,0.75) 0%, rgba(6,15,26,0.5) 50%, rgba(6,15,26,0.3) 100%); }
+  .supplies-bg { position: absolute; inset: 0; background-image: url('supplies_img.jpg'); background-size: cover; background-position: center; opacity: 0.55; }
+  .supplies-overlay { position: absolute; inset: 0; background: linear-gradient(to left, rgba(6,15,26,0.88) 40%, rgba(6,15,26,0.3) 100%); }
   .supplies-content { position: relative; z-index: 2; margin-left: auto; padding: 100px 60px; max-width: 580px; }
   .supplies-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
   .s-tag { font-size: 11px; letter-spacing: 1px; color: var(--silver); border: 1px solid rgba(192,192,192,0.2); padding: 6px 16px; font-weight: 300; }
@@ -286,7 +283,7 @@
         </div>
       </div>
       <div class="machine-slide">
-        <div class="machine-slide-img"><img src="machine2.png" alt="씨메 시그니처" style="object-fit:contain; background:#fff;"></div>
+        <div class="machine-slide-img"><img src="machine2.png" alt="씨메 시그니처" style="object-fit:contain; background:#0C2340; padding:20px;"></div>
         <div class="machine-slide-info">
           <p class="machine-grade">MID · 스페셜티 카페 추천</p>
           <p class="machine-name">CIME CO-05 시그니처</p>
@@ -304,7 +301,7 @@
         </div>
       </div>
       <div class="machine-slide">
-        <div class="machine-slide-img"><img src="machine4.jpg" alt="라마르조꼬 리네아 클래식"></div>
+        <div class="machine-slide-img"><img src="machine4.jpg" alt="라마르조꼬 리네아 클래식" style="object-fit:contain; background:#f0f0f0; padding:10px;"></div>
         <div class="machine-slide-info">
           <p class="machine-grade">MID-HIGH · 스페셜티 필수</p>
           <p class="machine-name">La Marzocco Linea Classic</p>
@@ -313,7 +310,7 @@
         </div>
       </div>
       <div class="machine-slide">
-        <div class="machine-slide-img"><img src="machine5.jpg" alt="산레모" style="object-fit:contain; background:#f5f5f5;"></div>
+        <div class="machine-slide-img"><img src="machine5.jpg" alt="산레모" style="object-fit:contain; background:#e8e8e8; padding:10px;"></div>
         <div class="machine-slide-info">
           <p class="machine-grade">HIGH · 하이엔드</p>
           <p class="machine-name">Sanremo F18</p>
@@ -322,7 +319,7 @@
         </div>
       </div>
       <div class="machine-slide">
-        <div class="machine-slide-img"><img src="machine6.jpg" alt="슬레이어" style="object-fit:contain; background:#f5f5f5;"></div>
+        <div class="machine-slide-img"><img src="machine6.jpg" alt="슬레이어" style="object-fit:contain; background:#e8e8e8; padding:10px;"></div>
         <div class="machine-slide-info">
           <p class="machine-grade">PREMIUM · 최고급</p>
           <p class="machine-name">Slayer Steam EP</p>
@@ -357,9 +354,6 @@
       <span class="s-tag">정기납품</span>
     </div>
     <a href="contact.html" class="sec-btn" style="margin-top:36px;">부자재 문의 <span>→</span></a>
-  </div>
-  <div class="supplies-img-wrap">
-    <img src="supplies_img.jpg" alt="부자재">
   </div>
 </section>
 
