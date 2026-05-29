@@ -238,65 +238,105 @@
     color: var(--cream);
     letter-spacing: 4px;
   }
-  .service-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-  }
-  .service-card {
+  /* 슬라이더 */
+  .slider-wrap {
+    overflow: hidden;
     position: relative;
-    min-height: 340px;
+    width: 100%;
+  }
+  .slider-track {
+    display: flex;
+    gap: 16px;
+    animation: slideLeft 30s linear infinite;
+    width: max-content;
+  }
+  .slider-wrap:hover .slider-track {
+    animation-play-state: paused;
+  }
+  .slide-card {
+    position: relative;
+    width: 320px;
+    height: 420px;
+    flex-shrink: 0;
     overflow: hidden;
     cursor: pointer;
     background: var(--navy);
     border: 1px solid rgba(192,192,192,0.08);
     transition: border-color 0.3s;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
   }
-  .service-card:hover { border-color: rgba(226,26,34,0.4); }
-  .service-card-overlay {
+  .slide-card:hover { border-color: rgba(226,26,34,0.4); }
+  .slide-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: transform 0.5s ease;
+  }
+  .slide-card:hover img { transform: scale(1.04); }
+  .slide-card-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(6,15,26,0.98) 50%, rgba(12,35,64,0.6) 100%);
+    background: linear-gradient(to top, rgba(6,15,26,0.95) 40%, rgba(12,35,64,0.3) 100%);
   }
-  .service-card-content {
-    position: relative;
+  .slide-card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 32px 28px;
     z-index: 1;
-    padding: 32px 24px;
   }
-  .service-number {
+  .slide-number {
     font-family: 'Pretendard', sans-serif;
     font-size: 11px;
     letter-spacing: 3px;
     color: var(--red);
     margin-bottom: 12px;
+    font-weight: 600;
   }
-  .service-name {
+  .slide-name {
     font-family: 'Pretendard', sans-serif;
-    font-size: 16px;
-    letter-spacing: 2px;
+    font-size: 20px;
+    font-weight: 700;
     color: var(--cream);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     word-break: keep-all;
   }
-  .service-desc {
-    font-size: 12px;
+  .slide-desc {
+    font-size: 13px;
     color: var(--cream);
     line-height: 1.9;
     font-weight: 300;
     opacity: 0.85;
     word-break: keep-all;
   }
-  .service-line {
-    width: 0;
+  .slide-line {
+    width: 32px;
     height: 1px;
     background: var(--red);
     margin-top: 16px;
     transition: width 0.4s ease;
   }
-  .service-card:hover .service-line { width: 48px; }
+  .slide-card:hover .slide-line { width: 56px; }
+  /* 슬라이드 플레이스홀더 배경 */
+  .slide-bg {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slide-bg-text {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(192,192,192,0.15);
+    font-weight: 300;
+  }
+  @keyframes slideLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
 
   /* GALLERY */
   .gallery-section {
@@ -591,51 +631,108 @@
     <p class="section-label">PRODUCTS & SERVICES</p>
     <h2>PRODUCTS</h2>
   </div>
-  <div class="service-grid">
-    <div class="service-card">
-      <div class="service-card-overlay"></div>
-      <div class="service-card-content">
-        <p class="service-number">01</p>
-        <p class="service-name">원두 납품</p>
-        <p class="service-desc">직접 로스팅한 원두를 카페, 사무실, 휴게소 등 모든 공간에 정기 납품합니다</p>
-        <div class="service-line"></div>
+  <div class="slider-wrap">
+    <div class="slider-track">
+    <div class="slide-card">
+      <div class="slide-bg"><span class="slide-bg-text">IMAGE</span></div>
+      <div class="slide-card-overlay"></div>
+      <div class="slide-card-content">
+        <p class="slide-number">01</p>
+        <p class="slide-name">원두 납품</p>
+        <p class="slide-desc">직접 로스팅한 원두를 카페, 사무실, 휴게소 등 모든 공간에 정기 납품합니다</p>
+        <div class="slide-line"></div>
       </div>
     </div>
-    <div class="service-card">
-      <div class="service-card-overlay"></div>
-      <div class="service-card-content">
-        <p class="service-number">02</p>
-        <p class="service-name">커피머신</p>
-        <p class="service-desc">엔지니어 출신 전문가가 최적의 머신을 제안하고 설치, AS까지 책임집니다</p>
-        <div class="service-line"></div>
+    <div class="slide-card">
+      <div class="slide-bg"><span class="slide-bg-text">IMAGE</span></div>
+      <div class="slide-card-overlay"></div>
+      <div class="slide-card-content">
+        <p class="slide-number">02</p>
+        <p class="slide-name">커피머신</p>
+        <p class="slide-desc">엔지니어 출신 전문가가 최적의 머신을 제안하고 설치, AS까지 책임집니다</p>
+        <div class="slide-line"></div>
       </div>
     </div>
-    <div class="service-card">
-      <div class="service-card-overlay"></div>
-      <div class="service-card-content">
-        <p class="service-number">03</p>
-        <p class="service-name">카페 컨설팅</p>
-        <p class="service-desc">창업 기획부터 운영까지, 현장 경험을 바탕으로 실질적인 방향을 제시합니다</p>
-        <div class="service-line"></div>
+    <div class="slide-card">
+      <div class="slide-bg"><span class="slide-bg-text">IMAGE</span></div>
+      <div class="slide-card-overlay"></div>
+      <div class="slide-card-content">
+        <p class="slide-number">03</p>
+        <p class="slide-name">카페 컨설팅</p>
+        <p class="slide-desc">창업 기획부터 운영까지, 현장 경험을 바탕으로 실질적인 방향을 제시합니다</p>
+        <div class="slide-line"></div>
       </div>
     </div>
-    <div class="service-card">
-      <div class="service-card-overlay"></div>
-      <div class="service-card-content">
-        <p class="service-number">04</p>
-        <p class="service-name">인테리어</p>
-        <p class="service-desc">카페의 동선과 분위기를 설계하고 브랜드에 맞는 공간을 완성합니다</p>
-        <div class="service-line"></div>
+    <div class="slide-card">
+      <div class="slide-bg"><span class="slide-bg-text">IMAGE</span></div>
+      <div class="slide-card-overlay"></div>
+      <div class="slide-card-content">
+        <p class="slide-number">04</p>
+        <p class="slide-name">인테리어</p>
+        <p class="slide-desc">카페의 동선과 분위기를 설계하고 브랜드에 맞는 공간을 완성합니다</p>
+        <div class="slide-line"></div>
       </div>
     </div>
-    <div class="service-card">
-      <div class="service-card-overlay"></div>
-      <div class="service-card-content">
-        <p class="service-number">05</p>
-        <p class="service-name">디저트</p>
-        <p class="service-desc">냉동 생지 및 베이커리 부자재 납품으로 카페 메뉴를 완성합니다</p>
-        <div class="service-line"></div>
+    <div class="slide-card">
+      <div class="slide-bg"><span class="slide-bg-text">IMAGE</span></div>
+      <div class="slide-card-overlay"></div>
+      <div class="slide-card-content">
+        <p class="slide-number">05</p>
+        <p class="slide-name">디저트</p>
+        <p class="slide-desc">냉동 생지 및 베이커리 부자재 납품으로 카페 메뉴를 완성합니다</p>
+        <div class="slide-line"></div>
       </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-bg"><span class="slide-bg-text">IMAGE</span></div>
+      <div class="slide-card-overlay"></div>
+      <div class="slide-card-content">
+        <p class="slide-number">01</p>
+        <p class="slide-name">원두 납품</p>
+        <p class="slide-desc">직접 로스팅한 원두를 카페, 사무실, 휴게소 등 모든 공간에 정기 납품합니다</p>
+        <div class="slide-line"></div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-bg"><span class="slide-bg-text">IMAGE</span></div>
+      <div class="slide-card-overlay"></div>
+      <div class="slide-card-content">
+        <p class="slide-number">02</p>
+        <p class="slide-name">커피머신</p>
+        <p class="slide-desc">엔지니어 출신 전문가가 최적의 머신을 제안하고 설치, AS까지 책임집니다</p>
+        <div class="slide-line"></div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-bg"><span class="slide-bg-text">IMAGE</span></div>
+      <div class="slide-card-overlay"></div>
+      <div class="slide-card-content">
+        <p class="slide-number">03</p>
+        <p class="slide-name">카페 컨설팅</p>
+        <p class="slide-desc">창업 기획부터 운영까지, 현장 경험을 바탕으로 실질적인 방향을 제시합니다</p>
+        <div class="slide-line"></div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-bg"><span class="slide-bg-text">IMAGE</span></div>
+      <div class="slide-card-overlay"></div>
+      <div class="slide-card-content">
+        <p class="slide-number">04</p>
+        <p class="slide-name">인테리어</p>
+        <p class="slide-desc">카페의 동선과 분위기를 설계하고 브랜드에 맞는 공간을 완성합니다</p>
+        <div class="slide-line"></div>
+      </div>
+    </div>
+    <div class="slide-card">
+      <div class="slide-bg"><span class="slide-bg-text">IMAGE</span></div>
+      <div class="slide-card-overlay"></div>
+      <div class="slide-card-content">
+        <p class="slide-number">05</p>
+        <p class="slide-name">디저트</p>
+        <p class="slide-desc">냉동 생지 및 베이커리 부자재 납품으로 카페 메뉴를 완성합니다</p>
+        <div class="slide-line"></div>
+      </div>
+    </div>
     </div>
   </div>
 </section>
