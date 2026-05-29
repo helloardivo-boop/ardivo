@@ -52,17 +52,20 @@
     display: flex;
     gap: 40px;
     list-style: none;
+    align-items: center;
   }
   .nav-links a {
     color: var(--cream);
     text-decoration: none;
     font-family: 'Pretendard', sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     letter-spacing: 3px;
     opacity: 0.8;
     transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
   }
-  .nav-links a:hover { opacity: 1; }
+  .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--red); }
   .nav-contact {
     font-family: 'Pretendard', sans-serif;
     font-size: 11px;
