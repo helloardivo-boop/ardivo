@@ -404,6 +404,11 @@
   }
 
   /* PROCESS */
+  .process-section-wrap {
+    background: rgba(12,35,64,0.25);
+    border-top: 1px solid rgba(192,192,192,0.06);
+    border-bottom: 1px solid rgba(192,192,192,0.06);
+  }
   .process-section {
     padding: 140px 60px;
     max-width: 1300px;
@@ -429,7 +434,7 @@
   .step-dot {
     width: 76px;
     height: 76px;
-    border: 1px solid var(--silver);
+    border: 2px solid var(--red);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -441,13 +446,13 @@
     transition: all 0.3s;
   }
   .process-step:hover .step-dot {
-    border-color: var(--red);
-    background: rgba(226,26,34,0.1);
+    background: rgba(226,26,34,0.15);
   }
   .step-dot span {
     font-family: 'Pretendard', sans-serif;
     font-size: 16px;
     color: var(--red);
+    font-weight: 700;
   }
   .step-title {
     font-family: 'Pretendard', sans-serif;
@@ -455,9 +460,10 @@
     letter-spacing: 3px;
     color: var(--cream);
     margin-bottom: 20px;
+    font-weight: 800;
   }
   .step-desc {
-    font-size: 16px;
+    font-size: 15px;
     color: var(--cream);
     line-height: 2;
     font-weight: 300;
@@ -633,8 +639,27 @@
     .section-header h2 { font-size: 32px; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); }
     .gallery-item.tall { grid-row: span 1; }
-    .process-steps { grid-template-columns: repeat(2, 1fr); gap: 48px; }
-    .process-steps::before { display: none; }
+    .process-steps {
+      grid-template-columns: 1fr !important;
+      gap: 0 !important;
+      margin-top: 48px !important;
+    }
+    .process-steps::before { display: none !important; }
+    .process-step {
+      position: relative;
+      padding: 0 24px 48px !important;
+    }
+    .process-step::before {
+      content: '';
+      position: absolute;
+      top: 76px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: calc(100% - 76px);
+      background: linear-gradient(to bottom, var(--red), rgba(226,26,34,0.1));
+    }
+    .process-step:last-child::before { display: none; }
     .cta-section { padding: 100px 24px; }
     .cta-title { font-size: 32px; }
     .cta-targets { gap: 20px; }
@@ -715,6 +740,111 @@
     .hamburger { display: flex; }
     .mobile-menu { display: flex; }
   }
+
+  @media (max-width: 768px) {
+    /* 전체 텍스트 모바일 최적화 */
+    h1, h2, h3, .page-title, .sec-title, .section-title,
+    .brand-left h2, .cta-title, .step-title, .block-title {
+      text-align: center !important;
+      word-break: keep-all !important;
+      overflow-wrap: break-word !important;
+    }
+    p, .sec-desc, .page-desc, .step-desc, .brand-desc,
+    .cta-desc, .block-desc, .adv-desc, .point-text p,
+    .interior-note p, .section-sub, .about-block p {
+      text-align: center !important;
+      word-break: keep-all !important;
+      overflow-wrap: break-word !important;
+      line-height: 1.95 !important;
+    }
+    .sec-label, .page-label, .section-label, .block-label,
+    .adv-title, .card-name, .machine-name, .machine-brand,
+    .machine-grade, .footer-brand {
+      text-align: center !important;
+    }
+    /* 버튼 가운데 */
+    .sec-btn, .cta-btn, .block-btn {
+      display: block !important;
+      text-align: center !important;
+      margin: 0 auto !important;
+    }
+    /* 태그 가운데 */
+    .block-tags, .supplies-tags, .bakery-tags, .bean-points {
+      justify-content: center !important;
+    }
+    /* 구분선 가운데 */
+    .hero-divider {
+      margin: 0 auto 32px !important;
+    }
+    /* 프로세스 카드 */
+    .process-card {
+      text-align: center !important;
+      padding: 40px 24px !important;
+    }
+    .step-header {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+    }
+    .step-num {
+      font-size: 56px !important;
+    }
+    .step-details {
+      align-items: center !important;
+    }
+    .step-detail-item {
+      justify-content: center !important;
+      text-align: center !important;
+    }
+    /* 강점 카드 */
+    .adv-icon { margin: 0 auto 24px !important; }
+    .advantage-card { text-align: center !important; }
+    .adv-tag { display: block !important; text-align: center !important; }
+    /* 브랜드 스토리 */
+    .brand-word-block { text-align: center !important; }
+    .bean-point {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+    }
+    .point-num { min-width: auto !important; }
+    /* 연락처 */
+    .channel-card {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+    }
+    .contact-section {
+      grid-template-columns: 1fr !important;
+    }
+    /* 푸터 */
+    .footer-inner {
+      grid-template-columns: 1fr !important;
+      text-align: center !important;
+    }
+    .footer-right { text-align: center !important; }
+    .footer-bottom {
+      flex-direction: column !important;
+      gap: 16px !important;
+      text-align: center !important;
+    }
+    /* 어바웃 */
+    .about-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .strength-item {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+    }
+    /* 인테리어 헤더 */
+    .interior-header {
+      flex-direction: column !important;
+      gap: 24px !important;
+      padding: 0 24px !important;
+      text-align: center !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -728,6 +858,7 @@
     <li><a href="about.html">ABOUT</a></li>
     <li><a href="products.html">PRODUCTS</a></li>
     <li><a href="process.html">PROCESS</a></li>
+    <li><a href="studio.html">STUDIO</a></li>
   </ul>
     <button class="hamburger" id="hamburger" aria-label="메뉴">
     <span></span>
@@ -751,6 +882,7 @@
   <a href="about.html">ABOUT</a>
   <a href="products.html">PRODUCTS</a>
   <a href="process.html">PROCESS</a>
+  <a href="studio.html">STUDIO</a>
   <a href="contact.html">CONTACT</a>
   <div class="mobile-sns">
     <a href="https://www.instagram.com/ardivo.kr/" target="_blank">
@@ -955,6 +1087,7 @@
 </section>
 
 <!-- PROCESS -->
+<div class="process-section-wrap">
 <section class="process-section" id="process">
   <div class="section-header">
     <p class="section-label">PROCESS</p>
@@ -964,25 +1097,26 @@
     <div class="process-step">
       <div class="step-dot"><span>01</span></div>
       <p class="step-title">상담</p>
-      <p class="step-desc">현재 상황과 필요한 것을 파악합니다. 방향이 없어도 괜찮습니다.</p>
+      <p class="step-desc">현재 상황과 필요한 것을<br>파악합니다.<br>방향이 없어도 괜찮습니다.</p>
     </div>
     <div class="process-step">
       <div class="step-dot"><span>02</span></div>
       <p class="step-title">제안</p>
-      <p class="step-desc">예산과 목적에 맞는 최적의 구성을 제안합니다.</p>
+      <p class="step-desc">예산과 목적에 맞는<br>최적의 구성을 제안합니다.</p>
     </div>
     <div class="process-step">
       <div class="step-dot"><span>03</span></div>
       <p class="step-title">실행</p>
-      <p class="step-desc">납품, 설치, 시공을 직접 책임지고 진행합니다.</p>
+      <p class="step-desc">납품, 설치, 시공을<br>직접 책임지고 진행합니다.</p>
     </div>
     <div class="process-step">
       <div class="step-dot"><span>04</span></div>
       <p class="step-title">운영 지원</p>
-      <p class="step-desc">오픈 이후에도 지속적인 파트너로 함께합니다.</p>
+      <p class="step-desc">오픈 이후에도<br>지속적인 파트너로 함께합니다.</p>
     </div>
   </div>
 </section>
+</div>
 
 <!-- CTA -->
 <section class="cta-section" id="contact">

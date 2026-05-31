@@ -265,6 +265,111 @@
     .hamburger { display: flex; }
     .mobile-menu { display: flex; }
   }
+
+  @media (max-width: 768px) {
+    /* 전체 텍스트 모바일 최적화 */
+    h1, h2, h3, .page-title, .sec-title, .section-title,
+    .brand-left h2, .cta-title, .step-title, .block-title {
+      text-align: center !important;
+      word-break: keep-all !important;
+      overflow-wrap: break-word !important;
+    }
+    p, .sec-desc, .page-desc, .step-desc, .brand-desc,
+    .cta-desc, .block-desc, .adv-desc, .point-text p,
+    .interior-note p, .section-sub, .about-block p {
+      text-align: center !important;
+      word-break: keep-all !important;
+      overflow-wrap: break-word !important;
+      line-height: 1.95 !important;
+    }
+    .sec-label, .page-label, .section-label, .block-label,
+    .adv-title, .card-name, .machine-name, .machine-brand,
+    .machine-grade, .footer-brand {
+      text-align: center !important;
+    }
+    /* 버튼 가운데 */
+    .sec-btn, .cta-btn, .block-btn {
+      display: block !important;
+      text-align: center !important;
+      margin: 0 auto !important;
+    }
+    /* 태그 가운데 */
+    .block-tags, .supplies-tags, .bakery-tags, .bean-points {
+      justify-content: center !important;
+    }
+    /* 구분선 가운데 */
+    .hero-divider {
+      margin: 0 auto 32px !important;
+    }
+    /* 프로세스 카드 */
+    .process-card {
+      text-align: center !important;
+      padding: 40px 24px !important;
+    }
+    .step-header {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+    }
+    .step-num {
+      font-size: 56px !important;
+    }
+    .step-details {
+      align-items: center !important;
+    }
+    .step-detail-item {
+      justify-content: center !important;
+      text-align: center !important;
+    }
+    /* 강점 카드 */
+    .adv-icon { margin: 0 auto 24px !important; }
+    .advantage-card { text-align: center !important; }
+    .adv-tag { display: block !important; text-align: center !important; }
+    /* 브랜드 스토리 */
+    .brand-word-block { text-align: center !important; }
+    .bean-point {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+    }
+    .point-num { min-width: auto !important; }
+    /* 연락처 */
+    .channel-card {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+    }
+    .contact-section {
+      grid-template-columns: 1fr !important;
+    }
+    /* 푸터 */
+    .footer-inner {
+      grid-template-columns: 1fr !important;
+      text-align: center !important;
+    }
+    .footer-right { text-align: center !important; }
+    .footer-bottom {
+      flex-direction: column !important;
+      gap: 16px !important;
+      text-align: center !important;
+    }
+    /* 어바웃 */
+    .about-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .strength-item {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+    }
+    /* 인테리어 헤더 */
+    .interior-header {
+      flex-direction: column !important;
+      gap: 24px !important;
+      padding: 0 24px !important;
+      text-align: center !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -276,6 +381,7 @@
     <li><a href="about.html">ABOUT</a></li>
     <li><a href="products.html" class="active">PRODUCTS</a></li>
     <li><a href="process.html">PROCESS</a></li>
+    <li><a href="studio.html">STUDIO</a></li>
   </ul>
     <button class="hamburger" id="hamburger" aria-label="메뉴">
     <span></span>
@@ -299,6 +405,7 @@
   <a href="about.html">ABOUT</a>
   <a href="products.html" class="active">PRODUCTS</a>
   <a href="process.html">PROCESS</a>
+  <a href="studio.html">STUDIO</a>
   <a href="contact.html">CONTACT</a>
   <div class="mobile-sns">
     <a href="https://www.instagram.com/ardivo.kr/" target="_blank">
