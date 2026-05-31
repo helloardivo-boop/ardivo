@@ -207,6 +207,30 @@
     </div>
   </div>
 
+  <div class="calc-card">
+    <p class="calc-card-title">STEP 03 · 초기 투자비용 (선택)</p>
+    <div class="input-grid">
+      <div class="input-group">
+        <label>인테리어 / 시공비</label>
+        <div class="input-wrap"><input type="number" id="interior_cost" placeholder="20,000,000" oninput="autoCalc()"><span class="input-unit">원</span></div>
+      </div>
+      <div class="input-group">
+        <label>머신 / 장비비</label>
+        <div class="input-wrap"><input type="number" id="machine_cost" placeholder="10,000,000" oninput="autoCalc()"><span class="input-unit">원</span></div>
+      </div>
+      <div class="input-group">
+        <label>보증금</label>
+        <div class="input-wrap"><input type="number" id="deposit" placeholder="10,000,000" oninput="autoCalc()"><span class="input-unit">원</span></div>
+        <span class="input-hint">회수 가능하지만 기회비용 포함</span>
+      </div>
+      <div class="input-group">
+        <label>기타 초기 비용</label>
+        <div class="input-wrap"><input type="number" id="other_invest" placeholder="5,000,000" oninput="autoCalc()"><span class="input-unit">원</span></div>
+        <span class="input-hint">집기, 소모품, 인허가비 등</span>
+      </div>
+    </div>
+  </div>
+
   <button class="calc-btn" onclick="calculate()">손익분기점 계산하기</button>
 
   <div class="result-wrap" id="result-wrap">
@@ -225,6 +249,25 @@
         <p class="result-label">일 목표 판매</p>
         <p class="result-value" id="daily-cups">-</p>
         <p class="result-unit">잔</p>
+      </div>
+    </div>
+
+    <!-- 투자비 회수 결과 -->
+    <div id="invest-result" style="display:none; margin-bottom:32px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:3px;">
+        <div class="result-card">
+          <p class="result-label">월 순이익 (손익분기 초과분)</p>
+          <p class="result-value" id="monthly-profit">-</p>
+          <p class="result-unit">원 (목표 매출 기준)</p>
+        </div>
+        <div class="result-card" style="background:rgba(226,26,34,0.12); border-color:rgba(226,26,34,0.35);">
+          <p class="result-label">💰 투자비 회수 기간</p>
+          <p class="result-value" id="payback-period">-</p>
+          <p class="result-unit" id="payback-unit">개월</p>
+        </div>
+      </div>
+      <div class="info-box" style="margin-top:8px;">
+        <p id="payback-desc"></p>
       </div>
     </div>
     <div class="calc-card">
@@ -296,6 +339,36 @@
     document.getElementById('daily-bep').textContent = fmt(daily_bep);
     document.getElementById('daily-cups').textContent = Math.ceil(daily_cups);
     document.getElementById('result-wrap').classList.add('show');
+
+    // 투자비 회수 계산
+    const interior_cost = parseFloat(document.getElementById('interior_cost').value)||0;
+    const machine_cost = parseFloat(document.getElementById('machine_cost').value)||0;
+    const deposit = parseFloat(document.getElementById('deposit').value)||0;
+    const other_invest = parseFloat(document.getElementById('other_invest').value)||0;
+    const total_invest = interior_cost + machine_cost + deposit + other_invest;
+
+    if(total_invest > 0) {
+      // 목표 매출을 손익분기점 + 20% 여유로 가정
+      const target_monthly = monthly_bep * 1.2;
+      const monthly_profit = target_monthly - fixed_total - (target_monthly * var_rate);
+      const payback_months = Math.ceil(total_invest / monthly_profit);
+      const payback_years = Math.floor(payback_months / 12);
+      const payback_remain = payback_months % 12;
+
+      document.getElementById('monthly-profit').textContent = fmt(monthly_profit);
+      document.getElementById('payback-period').textContent = payback_months;
+
+      let desc = `총 초기 투자비 ${fmt(total_invest)}원 기준, `;
+      if(payback_years > 0) {
+        desc += `약 ${payback_years}년 ${payback_remain > 0 ? payback_remain + '개월' : ''} 후 흑자 전환됩니다.`;
+      } else {
+        desc += `약 ${payback_months}개월 후 흑자 전환됩니다.`;
+      }
+      desc += ` (손익분기점 매출의 120% 달성 기준)`;
+      document.getElementById('payback-desc').textContent = desc;
+      document.getElementById('invest-result').style.display = 'block';
+    }
+
     const sim_prices = [avg_price*0.8, avg_price*0.9, avg_price, avg_price*1.2, avg_price*1.5];
     const tbody = document.getElementById('sim-table-body');
     tbody.innerHTML = '';
