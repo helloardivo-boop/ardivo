@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>인스타 콘텐츠 생성기 | ARDIVO STUDIO</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0C2340;
+    --navy2: #132030;
+    --navy3: #0D1B2A;
+    --red: #C0202A;
+    --cream: #F5EFE6;
+    --cream-dim: rgba(245,239,230,0.65);
+    --gold: #d4a843;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: var(--navy3); color: var(--cream); min-height: 100vh; padding-bottom: 80px; }
+
+  .header {
+    background: var(--navy3); border-bottom: 2px solid var(--red);
+    padding: 18px 20px 16px; position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .header-back { color: var(--red); font-size: 20px; text-decoration: none; display: flex; align-items: center; }
+  .header-info { flex: 1; }
+  .header-brand { font-size: 10px; letter-spacing: 3px; color: var(--red); }
+  .header-title { font-size: 15px; font-weight: 700; color: var(--cream); }
+
+  .container { padding: 20px 16px; max-width: 480px; margin: 0 auto; }
+
+  .steps { display: flex; gap: 8px; margin-bottom: 24px; }
+  .step { flex: 1; height: 3px; border-radius: 2px; background: rgba(192,192,192,0.15); transition: background 0.3s; }
+  .step.active { background: var(--red); }
+  .step.done { background: rgba(192,192,192,0.4); }
+
+  .section { background: var(--navy2); border: 1px solid rgba(192,192,192,0.1); border-radius: 14px; padding: 20px; margin-bottom: 14px; }
+  .section-title { font-size: 11px; letter-spacing: 3px; color: var(--red); font-weight: 700; margin-bottom: 14px; }
+
+  label { display: block; font-size: 13px; color: var(--cream-dim); margin-bottom: 8px; margin-top: 14px; }
+  label:first-of-type { margin-top: 0; }
+
+  input[type="text"], textarea, select {
+    width: 100%; background: var(--navy3); border: 1px solid rgba(192,192,192,0.15);
+    border-radius: 10px; color: var(--cream); font-size: 15px;
+    font-family: 'Noto Sans KR', sans-serif; padding: 12px 14px;
+    outline: none; transition: border-color 0.2s; -webkit-appearance: none;
+  }
+  input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--red); }
+  input::placeholder, textarea::placeholder { color: rgba(192,192,192,0.3); font-size: 13px; }
+  textarea { resize: none; line-height: 1.7; }
+
+  .tag-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .tag-btn {
+    background: var(--navy3); border: 1px solid rgba(192,192,192,0.2);
+    border-radius: 20px; color: var(--cream-dim); font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif; padding: 7px 14px;
+    cursor: pointer; transition: all 0.2s; -webkit-appearance: none;
+  }
+  .tag-btn.selected { background: rgba(192,32,42,0.15); border-color: var(--red); color: var(--cream); }
+
+  .gen-btn {
+    width: 100%; background: var(--red); color: #fff; border: none;
+    border-radius: 12px; padding: 16px; font-size: 16px; font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif; cursor: pointer; margin-top: 20px;
+    letter-spacing: 1px; transition: background 0.2s, transform 0.1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .gen-btn:active { transform: scale(0.98); background: #a01820; }
+  .gen-btn:disabled { background: #444; cursor: not-allowed; transform: none; }
+
+  .loading { display: none; text-align: center; padding: 40px 20px; }
+  .loading-spinner {
+    width: 40px; height: 40px; border: 3px solid rgba(192,32,42,0.2);
+    border-top-color: var(--red); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading p { font-size: 14px; color: var(--cream-dim); }
+
+  /* 결과 */
+  .result-section { display: none; margin-top: 20px; }
+  .result-block { background: var(--navy2); border: 1px solid rgba(192,192,192,0.1); border-radius: 14px; padding: 18px; margin-bottom: 12px; }
+  .result-block.highlight { border-color: rgba(192,32,42,0.4); }
+  .result-label { font-size: 10px; letter-spacing: 3px; color: var(--red); font-weight: 700; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+  .copy-btn {
+    background: none; border: 1px solid rgba(192,192,192,0.2); border-radius: 6px;
+    color: var(--cream-dim); font-size: 11px; padding: 4px 10px;
+    font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: all 0.2s;
+  }
+  .copy-btn:active { background: rgba(192,32,42,0.2); border-color: var(--red); color: var(--cream); }
+  .result-text { font-size: 14px; line-height: 1.9; color: var(--cream); white-space: pre-wrap; word-break: keep-all; }
+  .result-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .result-tag { background: rgba(192,32,42,0.12); border: 1px solid rgba(192,32,42,0.25); border-radius: 16px; font-size: 12px; color: var(--cream-dim); padding: 4px 10px; }
+
+  /* 카메라 뷰 */
+  .camera-section { background: var(--navy2); border: 1px solid rgba(192,192,192,0.1); border-radius: 14px; overflow: hidden; margin-bottom: 12px; }
+  .camera-header { padding: 14px 18px 0; }
+  .camera-wrap { position: relative; width: 100%; aspect-ratio: 1/1; background: #000; overflow: hidden; }
+  video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* 격자선 */
+  .grid-overlay { position: absolute; inset: 0; pointer-events: none; }
+  .grid-line { position: absolute; background: rgba(255,255,255,0.25); }
+  .grid-line.h { height: 1px; left: 0; right: 0; }
+  .grid-line.v { width: 1px; top: 0; bottom: 0; }
+  .grid-line.h:nth-child(1) { top: 33.33%; }
+  .grid-line.h:nth-child(2) { top: 66.66%; }
+  .grid-line.v:nth-child(3) { left: 33.33%; }
+  .grid-line.v:nth-child(4) { left: 66.66%; }
+
+  /* 필터 오버레이 */
+  .filter-overlay { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: 0; transition: opacity 0.5s; }
+
+  /* 구도 가이드 텍스트 */
+  .shot-guide {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.75));
+    padding: 24px 14px 14px; font-size: 12px; color: #fff; line-height: 1.6;
+  }
+
+  /* 카메라 컨트롤 */
+  .camera-controls { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; }
+  .cam-btn {
+    background: none; border: 1px solid rgba(192,192,192,0.2); border-radius: 10px;
+    color: var(--cream-dim); font-size: 12px; font-family: 'Noto Sans KR', sans-serif;
+    padding: 8px 14px; cursor: pointer; transition: all 0.2s;
+  }
+  .cam-btn:active { border-color: var(--red); color: var(--cream); }
+  .shutter {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--red); border: 3px solid rgba(255,255,255,0.3);
+    cursor: pointer; transition: transform 0.1s;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .shutter:active { transform: scale(0.92); }
+
+  /* 찍은 사진 미리보기 */
+  .preview-wrap { padding: 0 18px 14px; display: none; }
+  .preview-img { width: 100%; border-radius: 10px; display: block; }
+  .save-btn {
+    width: 100%; margin-top: 10px; background: var(--navy3);
+    border: 1px solid var(--red); border-radius: 10px; color: var(--red);
+    font-size: 14px; font-family: 'Noto Sans KR', sans-serif;
+    padding: 12px; cursor: pointer; font-weight: 600;
+  }
+
+  /* 카메라 없을 때 */
+  .no-camera { padding: 30px 18px; text-align: center; font-size: 13px; color: var(--cream-dim); line-height: 1.8; }
+
+  /* 톤 가이드 */
+  .tone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tone-item { background: var(--navy3); border-radius: 10px; padding: 12px; border: 1px solid rgba(192,192,192,0.08); }
+  .tone-item-label { font-size: 10px; color: var(--red); letter-spacing: 1px; margin-bottom: 4px; }
+  .tone-item-value { font-size: 13px; color: var(--cream); font-weight: 600; }
+
+  .regen-btn {
+    width: 100%; background: transparent; border: 1px solid rgba(192,192,192,0.2);
+    border-radius: 12px; color: var(--cream-dim); font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif; padding: 14px;
+    cursor: pointer; margin-top: 8px; transition: all 0.2s;
+  }
+  .regen-btn:active { border-color: var(--red); color: var(--cream); }
+
+  .footer-note { text-align: center; margin-top: 30px; font-size: 11px; color: rgba(192,192,192,0.3); letter-spacing: 2px; }
+  .footer-note span { color: var(--red); }
+
+  .toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: rgba(20,40,60,0.95); border: 1px solid var(--red);
+    border-radius: 10px; padding: 12px 24px; font-size: 13px; color: var(--cream);
+    opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; z-index: 999;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="studio.html" class="header-back">←</a>
+  <div class="header-info">
+    <div class="header-brand">ARDIVO STUDIO</div>
+    <div class="header-title">인스타 콘텐츠 생성기</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="steps">
+    <div class="step active" id="s1"></div>
+    <div class="step" id="s2"></div>
+    <div class="step" id="s3"></div>
+  </div>
+
+  <div id="formArea">
+
+    <div class="section">
+      <div class="section-title">매장 정보</div>
+      <label>매장 이름</label>
+      <input type="text" id="storeName" placeholder="예: 블루문 카페">
+
+      <label>매장 컨셉 / 분위기</label>
+      <div class="tag-group" id="conceptGroup">
+        <button class="tag-btn" onclick="toggleTag(this)">모던 미니멀</button>
+        <button class="tag-btn" onclick="toggleTag(this)">빈티지 감성</button>
+        <button class="tag-btn" onclick="toggleTag(this)">자연·우드</button>
+        <button class="tag-btn" onclick="toggleTag(this)">힙·스트릿</button>
+        <button class="tag-btn" onclick="toggleTag(this)">럭셔리·프리미엄</button>
+        <button class="tag-btn" onclick="toggleTag(this)">아늑·홈카페</button>
+        <button class="tag-btn" onclick="toggleTag(this)">브런치·감성</button>
+        <button class="tag-btn" onclick="toggleTag(this)">로컬·동네카페</button>
+      </div>
+
+      <label>주력 메뉴 (쉼표로 구분)</label>
+      <input type="text" id="mainMenu" placeholder="예: 에스프레소, 플랫화이트, 크로플">
+    </div>
+
+    <div class="section">
+      <div class="section-title">오늘 게시물</div>
+
+      <label>어떤 사진/영상인가요?</label>
+      <div class="tag-group" id="contentType">
+        <button class="tag-btn" onclick="toggleTag(this)">음료 사진</button>
+        <button class="tag-btn" onclick="toggleTag(this)">매장 내부</button>
+        <button class="tag-btn" onclick="toggleTag(this)">신메뉴 소개</button>
+        <button class="tag-btn" onclick="toggleTag(this)">제조 과정</button>
+        <button class="tag-btn" onclick="toggleTag(this)">일상·감성</button>
+        <button class="tag-btn" onclick="toggleTag(this)">이벤트·할인</button>
+        <button class="tag-btn" onclick="toggleTag(this)">시즌 메뉴</button>
+        <button class="tag-btn" onclick="toggleTag(this)">직원·바리스타</button>
+      </div>
+
+      <label>문구 뉘앙스</label>
+      <div class="tag-group" id="nuanceGroup">
+        <button class="tag-btn" onclick="toggleSingle(this, 'nuanceGroup')">감성적으로</button>
+        <button class="tag-btn" onclick="toggleSingle(this, 'nuanceGroup')">친근하게</button>
+        <button class="tag-btn" onclick="toggleSingle(this, 'nuanceGroup')">세련되게</button>
+        <button class="tag-btn" onclick="toggleSingle(this, 'nuanceGroup')">후킹하게</button>
+        <button class="tag-btn" onclick="toggleSingle(this, 'nuanceGroup')">정보 전달</button>
+        <button class="tag-btn" onclick="toggleSingle(this, 'nuanceGroup')">스토리텔링</button>
+      </div>
+
+      <label>전달하고 싶은 메시지 (선택)</label>
+      <textarea id="message" rows="3" placeholder="예: 오늘 날씨가 좋아서 테라스 자리 추천하고 싶어요"></textarea>
+    </div>
+
+    <button class="gen-btn" id="genBtn" onclick="generate()">✦ 콘텐츠 생성하기</button>
+  </div>
+
+  <!-- 로딩 -->
+  <div class="loading" id="loading">
+    <div class="loading-spinner"></div>
+    <p id="loadingText">매장 컨셉 분석 중...</p>
+  </div>
+
+  <!-- 결과 -->
+  <div class="result-section" id="resultSection">
+
+    <div class="result-block highlight">
+      <div class="result-label">
+        게시물 문구
+        <button class="copy-btn" onclick="copyText('captionResult')">복사</button>
+      </div>
+      <div class="result-text" id="captionResult"></div>
+    </div>
+
+    <div class="result-block">
+      <div class="result-label">
+        해시태그 (5개)
+        <button class="copy-btn" onclick="copyTags()">복사</button>
+      </div>
+      <div class="result-tags" id="hashtagResult"></div>
+    </div>
+
+    <!-- 카메라 구도 가이드 -->
+    <div class="camera-section">
+      <div class="camera-header">
+        <div class="result-label" style="margin-bottom:12px">촬영 구도 가이드 <span style="font-size:10px;color:var(--cream-dim);font-weight:400;letter-spacing:0">카메라로 바로 찍어보세요</span></div>
+      </div>
+
+      <div class="camera-wrap" id="cameraWrap">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="filterCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity 0.5s;"></canvas>
+        <div class="grid-overlay">
+          <div class="grid-line h"></div>
+          <div class="grid-line h"></div>
+          <div class="grid-line v"></div>
+          <div class="grid-line v"></div>
+        </div>
+        <div class="shot-guide" id="shotGuide"></div>
+        <div class="no-camera" id="noCameraMsg" style="display:none">
+          📷 카메라 권한을 허용하면<br>격자선과 함께 바로 촬영할 수 있어요
+        </div>
+      </div>
+
+      <div class="camera-controls">
+        <button class="cam-btn" onclick="toggleFilter()" id="filterBtn">필터 끄기</button>
+        <div class="shutter" onclick="takePhoto()">📸</div>
+        <button class="cam-btn" onclick="switchCamera()">전환 🔄</button>
+      </div>
+
+      <div class="preview-wrap" id="previewWrap">
+        <img id="previewImg" class="preview-img">
+        <button class="save-btn" onclick="savePhoto()">📥 사진 저장하기</button>
+      </div>
+    </div>
+
+    <!-- 이미지 톤 가이드 -->
+    <div class="result-block">
+      <div class="result-label">이미지 톤 가이드</div>
+      <div class="tone-grid" id="toneResult"></div>
+    </div>
+
+    <button class="regen-btn" onclick="generate()">↻ 다시 생성하기</button>
+    <button class="regen-btn" onclick="resetForm()">← 처음으로</button>
+  </div>
+
+  <div class="footer-note"><span>ARDIVO</span> · ardivo.co.kr</div>
+</div>
+
+<canvas id="captureCanvas" style="display:none"></canvas>
+<div class="toast" id="toast"></div>
+
+<script>
+let stream = null;
+let facingMode = 'environment';
+let filterOn = true;
+let currentFilter = { r: 0, g: 0, b: 0, a: 0 };
+let animFrame = null;
+
+function toggleTag(btn) {
+  btn.classList.toggle('selected');
+  updateSteps();
+}
+function toggleSingle(btn, groupId) {
+  document.querySelectorAll(`#${groupId} .tag-btn`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+function getSelected(groupId) {
+  return Array.from(document.querySelectorAll(`#${groupId} .tag-btn.selected`)).map(b => b.textContent);
+}
+function updateSteps() {
+  const name = document.getElementById('storeName').value;
+  const concepts = getSelected('conceptGroup');
+  const types = getSelected('contentType');
+  document.getElementById('s1').className = 'step ' + (name || concepts.length ? 'done' : 'active');
+  document.getElementById('s2').className = 'step ' + (types.length ? 'done' : concepts.length ? 'active' : '');
+  document.getElementById('s3').className = 'step ' + (types.length ? 'active' : '');
+}
+document.getElementById('storeName').addEventListener('input', updateSteps);
+
+const loadingMessages = ['매장 컨셉 분석 중...', '문구 작성 중...', '해시태그 선별 중...', '촬영 가이드 생성 중...'];
+let msgIdx = 0;
+let msgTimer = null;
+
+async function generate() {
+  const storeName = document.getElementById('storeName').value.trim() || '우리 카페';
+  const concepts = getSelected('conceptGroup');
+  const menu = document.getElementById('mainMenu').value.trim();
+  const contentTypes = getSelected('contentType');
+  const nuance = getSelected('nuanceGroup')[0] || '자연스럽게';
+  const message = document.getElementById('message').value.trim();
+
+  if (!contentTypes.length) { showToast('어떤 사진인지 선택해주세요'); return; }
+
+  document.getElementById('formArea').style.display = 'none';
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('resultSection').style.display = 'none';
+
+  msgIdx = 0;
+  document.getElementById('loadingText').textContent = loadingMessages[0];
+  msgTimer = setInterval(() => {
+    msgIdx = (msgIdx + 1) % loadingMessages.length;
+    document.getElementById('loadingText').textContent = loadingMessages[msgIdx];
+  }, 1200);
+
+  const prompt = `카페 인스타그램 게시물 콘텐츠를 만들어줘.
+
+매장명: ${storeName}
+컨셉/분위기: ${concepts.join(', ') || '일반 카페'}
+주력 메뉴: ${menu || '커피류'}
+오늘 게시물 유형: ${contentTypes.join(', ')}
+문구 뉘앙스: ${nuance}
+전달 메시지: ${message || '없음'}
+
+아래 JSON 형식으로만 답해줘. 다른 텍스트 없이 JSON만:
+{
+  "caption": "게시물 문구 (${nuance} 톤으로, 2-3문장, 이모지 1-2개 포함, 한국어)",
+  "hashtags": ["#태그1", "#태그2", "#태그3", "#태그4", "#태그5"],
+  "tone": {
+    "filter": "필터 스타일 (예: 따뜻한 오렌지톤)",
+    "brightness": "밝기 (예: 살짝 밝게)",
+    "contrast": "대비 (예: 낮게)",
+    "mood": "전체 무드 (예: 포근하고 따뜻한)",
+    "filterColor": "필터 색상을 rgba로 (예: rgba(255,200,100,0.15))"
+  },
+  "shot_tip": "촬영 구도 팁 한 줄 (격자선 기준으로 어디에 피사체 놓을지)"
+}`;
+
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 800,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+
+    clearInterval(msgTimer);
+    const data = await response.json();
+    const raw = data.content.map(i => i.text || '').join('');
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(clean);
+
+    document.getElementById('captionResult').textContent = result.caption;
+
+    const tagContainer = document.getElementById('hashtagResult');
+    tagContainer.innerHTML = '';
+    result.hashtags.slice(0, 5).forEach(tag => {
+      const el = document.createElement('span');
+      el.className = 'result-tag';
+      el.textContent = tag;
+      tagContainer.appendChild(el);
+    });
+
+    document.getElementById('toneResult').innerHTML = `
+      <div class="tone-item"><div class="tone-item-label">필터</div><div class="tone-item-value">${result.tone.filter}</div></div>
+      <div class="tone-item"><div class="tone-item-label">밝기</div><div class="tone-item-value">${result.tone.brightness}</div></div>
+      <div class="tone-item"><div class="tone-item-label">대비</div><div class="tone-item-value">${result.tone.contrast}</div></div>
+      <div class="tone-item"><div class="tone-item-label">전체 무드</div><div class="tone-item-value">${result.tone.mood}</div></div>
+    `;
+
+    document.getElementById('shotGuide').textContent = result.shot_tip;
+
+    // 필터 색상 파싱
+    if (result.tone.filterColor) {
+      const match = result.tone.filterColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+      if (match) {
+        currentFilter = { r: +match[1], g: +match[2], b: +match[3], a: +(match[4] || 0.15) };
+      }
+    }
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('resultSection').style.display = 'block';
+    document.getElementById('s1').className = 'step done';
+    document.getElementById('s2').className = 'step done';
+    document.getElementById('s3').className = 'step active';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 카메라 시작
+    startCamera();
+
+  } catch(e) {
+    clearInterval(msgTimer);
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('formArea').style.display = 'block';
+    showToast('오류가 발생했어요. 다시 시도해주세요.');
+  }
+}
+
+async function startCamera() {
+  try {
+    if (stream) { stream.getTracks().forEach(t => t.stop()); }
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode, width: { ideal: 1080 }, height: { ideal: 1080 } }, audio: false });
+    const video = document.getElementById('video');
+    video.srcObject = stream;
+    document.getElementById('noCameraMsg').style.display = 'none';
+    video.style.display = 'block';
+    if (filterOn) startFilterLoop();
+  } catch(e) {
+    document.getElementById('video').style.display = 'none';
+    document.getElementById('noCameraMsg').style.display = 'flex';
+    document.getElementById('noCameraMsg').style.alignItems = 'center';
+    document.getElementById('noCameraMsg').style.justifyContent = 'center';
+  }
+}
+
+function startFilterLoop() {
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('filterCanvas');
+  const ctx = canvas.getContext('2d');
+  function draw() {
+    if (!filterOn) return;
+    canvas.width = video.videoWidth || 400;
+    canvas.height = video.videoHeight || 400;
+    ctx.fillStyle = `rgba(${currentFilter.r},${currentFilter.g},${currentFilter.b},${currentFilter.a})`;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    animFrame = requestAnimationFrame(draw);
+  }
+  canvas.style.opacity = '1';
+  draw();
+}
+
+function toggleFilter() {
+  filterOn = !filterOn;
+  const canvas = document.getElementById('filterCanvas');
+  document.getElementById('filterBtn').textContent = filterOn ? '필터 끄기' : '필터 켜기';
+  if (filterOn) {
+    startFilterLoop();
+  } else {
+    cancelAnimationFrame(animFrame);
+    canvas.style.opacity = '0';
+  }
+}
+
+function switchCamera() {
+  facingMode = facingMode === 'environment' ? 'user' : 'environment';
+  startCamera();
+}
+
+function takePhoto() {
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('captureCanvas');
+  const size = Math.min(video.videoWidth, video.videoHeight) || 400;
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  const offsetX = (video.videoWidth - size) / 2;
+  const offsetY = (video.videoHeight - size) / 2;
+  ctx.drawImage(video, offsetX, offsetY, size, size, 0, 0, size, size);
+  if (filterOn) {
+    ctx.fillStyle = `rgba(${currentFilter.r},${currentFilter.g},${currentFilter.b},${currentFilter.a})`;
+    ctx.fillRect(0, 0, size, size);
+  }
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+  document.getElementById('previewImg').src = dataUrl;
+  document.getElementById('previewWrap').style.display = 'block';
+  document.getElementById('previewWrap').scrollIntoView({ behavior: 'smooth' });
+}
+
+function savePhoto() {
+  const a = document.createElement('a');
+  a.href = document.getElementById('previewImg').src;
+  a.download = 'ardivo_photo.jpg';
+  a.click();
+  showToast('사진이 저장됐어요');
+}
+
+function copyText(id) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => showToast('복사됐어요'));
+}
+function copyTags() {
+  const tags = Array.from(document.querySelectorAll('#hashtagResult .result-tag')).map(t => t.textContent).join(' ');
+  navigator.clipboard.writeText(tags).then(() => showToast('해시태그 복사됐어요'));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function resetForm() {
+  if (stream) stream.getTracks().forEach(t => t.stop());
+  cancelAnimationFrame(animFrame);
+  document.getElementById('resultSection').style.display = 'none';
+  document.getElementById('formArea').style.display = 'block';
+  document.getElementById('previewWrap').style.display = 'none';
+  document.getElementById('s1').className = 'step active';
+  document.getElementById('s2').className = 'step';
+  document.getElementById('s3').className = 'step';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
