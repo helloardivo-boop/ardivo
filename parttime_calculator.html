@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>파트타이머 급여 계산기 | ARDIVO</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #0D1B2A;
+    color: #fff;
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  .header {
+    background: #0D1B2A;
+    border-bottom: 3px solid #C0202A;
+    padding: 24px 20px 20px;
+    text-align: center;
+  }
+  .header .brand {
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: #C0202A;
+    margin-bottom: 8px;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .header p {
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 6px;
+  }
+
+  .container { max-width: 560px; margin: 0 auto; padding: 0 16px; }
+
+  .card {
+    background: #132030;
+    border: 1px solid #1e3a50;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #C0202A;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #1e3a50;
+  }
+
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 6px;
+  }
+  .field label span {
+    color: #555;
+    font-size: 11px;
+    margin-left: 6px;
+  }
+
+  input[type="number"], select {
+    width: 100%;
+    background: #0D1B2A;
+    border: 1px solid #1e3a50;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 15px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="number"]:focus, select:focus {
+    border-color: #C0202A;
+  }
+  input::placeholder { color: #444; font-size: 13px; }
+
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .toggle-row label { font-size: 13px; color: #ccc; }
+
+  .toggle {
+    position: relative;
+    width: 44px;
+    height: 24px;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute;
+    inset: 0;
+    background: #1e3a50;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .slider:before {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    left: 3px; top: 3px;
+    background: #aaa;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+  .toggle input:checked + .slider { background: #C0202A; }
+  .toggle input:checked + .slider:before { transform: translateX(20px); background: #fff; }
+
+  .calc-btn {
+    width: 100%;
+    background: #C0202A;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 20px;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+  }
+  .calc-btn:hover { background: #a01820; }
+
+  .result-card {
+    background: #132030;
+    border: 1px solid #C0202A;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    display: none;
+  }
+  .result-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #C0202A;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #1e3a50;
+  }
+
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid #0D1B2A;
+    font-size: 14px;
+  }
+  .result-row:last-child { border-bottom: none; }
+  .result-row .label { color: #aaa; }
+  .result-row .value { font-weight: 600; color: #fff; }
+  .result-row .value.red { color: #C0202A; }
+  .result-row .value.gold { color: #d4a843; }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0 0;
+    margin-top: 10px;
+    border-top: 2px solid #C0202A;
+  }
+  .total-row .label { font-size: 14px; font-weight: 700; color: #fff; }
+  .total-row .value { font-size: 22px; font-weight: 700; color: #C0202A; }
+
+  .notice-box {
+    background: #0D1B2A;
+    border: 1px solid #1e3a50;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 14px;
+    font-size: 12px;
+    color: #888;
+    line-height: 1.8;
+  }
+  .notice-box .notice-title { color: #d4a843; font-weight: 600; margin-bottom: 4px; }
+
+  .freelance-box {
+    background: #0f2a1a;
+    border: 1px solid #1a4a2a;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 12px;
+    display: none;
+  }
+  .freelance-box .f-title { font-size: 12px; color: #4CAF50; font-weight: 600; margin-bottom: 8px; }
+  .freelance-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 5px 0;
+  }
+  .freelance-row .label { color: #aaa; }
+  .freelance-row .value { color: #fff; font-weight: 600; }
+
+  .break-tag {
+    display: inline-block;
+    background: #1e3a50;
+    color: #aaa;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 11px;
+    color: #444;
+    letter-spacing: 2px;
+  }
+  .footer span { color: #C0202A; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">ARDIVO</div>
+  <h1>파트타이머 급여 계산기</h1>
+  <p>2026년 최저임금 기준 · 주휴수당 · 연장/야간/휴일 수당 자동 계산</p>
+</div>
+
+<div class="container">
+
+  <!-- 기본 정보 -->
+  <div class="card">
+    <div class="card-title">기본 정보</div>
+
+    <div class="field">
+      <label>시급 <span>2026년 최저시급 10,320원</span></label>
+      <input type="number" id="hourly" placeholder="10,320" min="10320">
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>하루 근무시간 (시간)</label>
+        <input type="number" id="daily_hours" placeholder="예: 5" min="1" max="12" step="0.5">
+      </div>
+      <div class="field">
+        <label>주 근무일수 (일)</label>
+        <input type="number" id="weekly_days" placeholder="예: 5" min="1" max="7">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>계산 기간</label>
+      <select id="period">
+        <option value="weekly">주급</option>
+        <option value="monthly" selected>월급 (4.345주 기준)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- 추가 수당 -->
+  <div class="card">
+    <div class="card-title">추가 수당</div>
+
+    <div class="toggle-row">
+      <label>주휴수당 포함 <span style="font-size:11px;color:#555;">(주 15시간 이상 근무 시 자동 적용)</span></label>
+      <label class="toggle"><input type="checkbox" id="weekly_holiday" checked><span class="slider"></span></label>
+    </div>
+
+    <div class="field">
+      <label>연장근로 시간 <span>(주 40시간 초과 · 시급 × 1.5배)</span></label>
+      <input type="number" id="overtime" placeholder="0" min="0" step="0.5">
+    </div>
+
+    <div class="field">
+      <label>야간근로 시간 <span>(22시~06시 · 시급 × 1.5배)</span></label>
+      <input type="number" id="night" placeholder="0" min="0" step="0.5">
+    </div>
+
+    <div class="field">
+      <label>휴일근로 시간 <span>(8시간 이내 1.5배 · 초과 2.0배)</span></label>
+      <input type="number" id="holiday" placeholder="0" min="0" step="0.5">
+    </div>
+  </div>
+
+  <!-- 고용 형태 -->
+  <div class="card">
+    <div class="card-title">고용 형태</div>
+
+    <div class="toggle-row">
+      <label>3.3% 프리랜서 (사업소득세 공제)</label>
+      <label class="toggle"><input type="checkbox" id="freelance"><span class="slider"></span></label>
+    </div>
+
+    <div class="toggle-row">
+      <label>퇴직금 발생 여부 확인 <span style="font-size:11px;color:#555;">(1년 이상 근무 시)</span></label>
+      <label class="toggle"><input type="checkbox" id="retirement"><span class="slider"></span></label>
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calculate()">급여 계산하기</button>
+
+  <!-- 결과 -->
+  <div class="result-card" id="result">
+    <div class="result-title">계산 결과</div>
+
+    <div class="result-row">
+      <span class="label">시급</span>
+      <span class="value" id="r_hourly">-</span>
+    </div>
+    <div class="result-row">
+      <span class="label">주간 근로시간</span>
+      <span class="value" id="r_weekly_hours">-</span>
+    </div>
+    <div class="result-row">
+      <span class="label" id="r_break_label">휴게시간</span>
+      <span class="value" id="r_break">-</span>
+    </div>
+    <div class="result-row">
+      <span class="label">기본급</span>
+      <span class="value" id="r_base">-</span>
+    </div>
+    <div class="result-row" id="row_weekly_holiday">
+      <span class="label">주휴수당</span>
+      <span class="value gold" id="r_weekly_holiday">-</span>
+    </div>
+    <div class="result-row" id="row_overtime" style="display:none">
+      <span class="label">연장근로수당 (×1.5)</span>
+      <span class="value gold" id="r_overtime">-</span>
+    </div>
+    <div class="result-row" id="row_night" style="display:none">
+      <span class="label">야간근로수당 (×1.5)</span>
+      <span class="value gold" id="r_night">-</span>
+    </div>
+    <div class="result-row" id="row_holiday" style="display:none">
+      <span class="label">휴일근로수당</span>
+      <span class="value gold" id="r_holiday">-</span>
+    </div>
+
+    <div class="total-row">
+      <span class="label">총 지급액</span>
+      <span class="value" id="r_total">-</span>
+    </div>
+
+    <!-- 프리랜서 -->
+    <div class="freelance-box" id="freelance_box">
+      <div class="f-title">3.3% 프리랜서 공제 내역</div>
+      <div class="freelance-row">
+        <span class="label">세전 금액</span>
+        <span class="value" id="f_before">-</span>
+      </div>
+      <div class="freelance-row">
+        <span class="label">공제액 (3.3%)</span>
+        <span class="value red" id="f_tax">-</span>
+      </div>
+      <div class="freelance-row">
+        <span class="label">실수령액</span>
+        <span class="value" id="f_after">-</span>
+      </div>
+    </div>
+
+    <!-- 퇴직금 -->
+    <div class="notice-box" id="retirement_box" style="display:none">
+      <div class="notice-title">📌 퇴직금 안내</div>
+      <div id="retirement_text"></div>
+    </div>
+
+    <!-- 기본 안내 -->
+    <div class="notice-box">
+      <div class="notice-title">⚠️ 참고사항</div>
+      · 5인 미만 사업장은 연장·야간·휴일 가산수당 의무 없음<br>
+      · 주휴수당은 주 15시간 이상 개근 시 지급<br>
+      · 본 계산기는 참고용이며 정확한 내용은 노무사 상담 권장
+    </div>
+  </div>
+
+  <div class="footer"><span>ARDIVO</span> · ardivo.co.kr</div>
+</div>
+
+<script>
+function comma(n) {
+  return Math.round(n).toLocaleString('ko-KR') + '원';
+}
+
+function getBreakTime(hours) {
+  if (hours >= 8) return '1시간';
+  if (hours >= 4) return '30분';
+  return '없음';
+}
+
+function calculate() {
+  const hourly = parseFloat(document.getElementById('hourly').value) || 10320;
+  const dailyHours = parseFloat(document.getElementById('daily_hours').value) || 0;
+  const weeklyDays = parseFloat(document.getElementById('weekly_days').value) || 0;
+  const period = document.getElementById('period').value;
+  const includeWeeklyHoliday = document.getElementById('weekly_holiday').checked;
+  const overtimeHours = parseFloat(document.getElementById('overtime').value) || 0;
+  const nightHours = parseFloat(document.getElementById('night').value) || 0;
+  const holidayHours = parseFloat(document.getElementById('holiday').value) || 0;
+  const isFreelance = document.getElementById('freelance').checked;
+  const showRetirement = document.getElementById('retirement').checked;
+
+  const weeklyHours = dailyHours * weeklyDays;
+  const multiplier = period === 'monthly' ? 4.345 : 1;
+
+  // 기본급
+  const baseWeekly = hourly * weeklyHours;
+  const base = baseWeekly * multiplier;
+
+  // 주휴수당
+  let weeklyHolidayPay = 0;
+  if (includeWeeklyHoliday && weeklyHours >= 15) {
+    weeklyHolidayPay = (weeklyHours / 40) * 8 * hourly * multiplier;
+  }
+
+  // 연장수당
+  const overtimePay = hourly * 1.5 * overtimeHours * multiplier;
+
+  // 야간수당
+  const nightPay = hourly * 1.5 * nightHours * multiplier;
+
+  // 휴일수당
+  let holidayPay = 0;
+  if (holidayHours <= 8) {
+    holidayPay = hourly * 1.5 * holidayHours * multiplier;
+  } else {
+    holidayPay = (hourly * 1.5 * 8 + hourly * 2.0 * (holidayHours - 8)) * multiplier;
+  }
+
+  const total = base + weeklyHolidayPay + overtimePay + nightPay + holidayPay;
+
+  // 결과 표시
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('r_hourly').textContent = comma(hourly);
+  document.getElementById('r_weekly_hours').textContent = weeklyHours + '시간 / 주';
+  document.getElementById('r_break_label').textContent = '하루 휴게시간 (' + dailyHours + '시간 근무)';
+  document.getElementById('r_break').textContent = getBreakTime(dailyHours);
+  document.getElementById('r_base').textContent = comma(base);
+
+  // 주휴수당
+  if (includeWeeklyHoliday && weeklyHours >= 15) {
+    document.getElementById('row_weekly_holiday').style.display = 'flex';
+    document.getElementById('r_weekly_holiday').textContent = comma(weeklyHolidayPay);
+  } else {
+    document.getElementById('row_weekly_holiday').style.display = weeklyHours < 15 && includeWeeklyHoliday ? 'flex' : 'none';
+    document.getElementById('r_weekly_holiday').textContent = '해당없음 (주 15시간 미만)';
+  }
+
+  // 연장
+  if (overtimeHours > 0) {
+    document.getElementById('row_overtime').style.display = 'flex';
+    document.getElementById('r_overtime').textContent = comma(overtimePay);
+  } else {
+    document.getElementById('row_overtime').style.display = 'none';
+  }
+
+  // 야간
+  if (nightHours > 0) {
+    document.getElementById('row_night').style.display = 'flex';
+    document.getElementById('r_night').textContent = comma(nightPay);
+  } else {
+    document.getElementById('row_night').style.display = 'none';
+  }
+
+  // 휴일
+  if (holidayHours > 0) {
+    document.getElementById('row_holiday').style.display = 'flex';
+    document.getElementById('r_holiday').textContent = comma(holidayPay);
+  } else {
+    document.getElementById('row_holiday').style.display = 'none';
+  }
+
+  document.getElementById('r_total').textContent = comma(total);
+
+  // 프리랜서
+  if (isFreelance) {
+    document.getElementById('freelance_box').style.display = 'block';
+    const tax = total * 0.033;
+    const after = total - tax;
+    document.getElementById('f_before').textContent = comma(total);
+    document.getElementById('f_tax').textContent = '- ' + comma(tax);
+    document.getElementById('f_after').textContent = comma(after);
+  } else {
+    document.getElementById('freelance_box').style.display = 'none';
+  }
+
+  // 퇴직금
+  if (showRetirement) {
+    document.getElementById('retirement_box').style.display = 'block';
+    const daily30 = (total / 30);
+    const retirementPer1Year = daily30 * 30;
+    document.getElementById('retirement_text').innerHTML =
+      '· 1년 이상 계속 근무 시 퇴직금 발생<br>' +
+      '· 퇴직금 = 30일분 평균임금 × 근속연수<br>' +
+      '· 현재 급여 기준 1년 퇴직금 예상: <strong style="color:#d4a843">' + comma(retirementPer1Year) + '</strong><br>' +
+      '· 주 15시간 미만 근무자는 퇴직금 적용 제외';
+  } else {
+    document.getElementById('retirement_box').style.display = 'none';
+  }
+
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
