@@ -454,7 +454,7 @@ async function generate() {
     clearInterval(msgTimer);
     document.getElementById('loading').style.display = 'none';
     document.getElementById('formArea').style.display = 'block';
-    showToast('오류가 발생했어요. 다시 시도해주세요.');
+    console.error('생성 오류:', e); showToast('오류: ' + e.message);
   }
 }
 
