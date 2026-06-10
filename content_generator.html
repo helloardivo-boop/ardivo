@@ -111,6 +111,10 @@
   .grid-line.v:nth-child(3) { left: 33.33%; }
   .grid-line.v:nth-child(4) { left: 66.66%; }
 
+  /* 구도 가이드 오버레이 */
+  .guide-overlay { position: absolute; inset: 0; pointer-events: none; }
+  .guide-overlay svg { width: 100%; height: 100%; }
+
   /* 필터 오버레이 */
   .filter-overlay { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: 0; transition: opacity 0.5s; }
 
@@ -289,6 +293,7 @@
           <div class="grid-line v"></div>
           <div class="grid-line v"></div>
         </div>
+        <div class="guide-overlay" id="guideOverlay"></div>
         <div class="shot-guide" id="shotGuide"></div>
         <div class="no-camera" id="noCameraMsg" style="display:none">
           📷 카메라 권한을 허용하면<br>격자선과 함께 바로 촬영할 수 있어요
@@ -453,6 +458,7 @@ async function generate() {
 
     // 카메라 시작
     startCamera();
+    drawGuideOverlay(contentTypes);
 
   } catch(e) {
     clearInterval(msgTimer);
@@ -460,6 +466,150 @@ async function generate() {
     document.getElementById('formArea').style.display = 'block';
     console.error('생성 오류:', e); showToast('오류: ' + e.message);
   }
+}
+
+function drawGuideOverlay(contentTypes) {
+  const overlay = document.getElementById('guideOverlay');
+  const type = contentTypes[0] || '';
+  let svg = '';
+
+  if (type === '음료 사진') {
+    svg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- 하단 1/3 강조 영역 -->
+      <rect x="0" y="66.6" width="100" height="33.4" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5" stroke-dasharray="2,2"/>
+      <!-- 컵 실루엣 -->
+      <g transform="translate(50,78)" opacity="0.5">
+        <path d="M-10,-10 L-8,10 L8,10 L10,-10 Z" fill="none" stroke="rgba(255,220,100,0.7)" stroke-width="0.8"/>
+        <ellipse cx="0" cy="-10" rx="10" ry="2.5" fill="none" stroke="rgba(255,220,100,0.7)" stroke-width="0.8"/>
+        <path d="M10,-5 Q14,-5 14,0 Q14,5 10,5" fill="none" stroke="rgba(255,220,100,0.7)" stroke-width="0.8"/>
+      </g>
+      <!-- 배치 안내 텍스트 -->
+      <text x="50" y="62" text-anchor="middle" fill="rgba(255,220,100,0.8)" font-size="3.5" font-family="sans-serif">▼ 음료를 여기에</text>
+      <!-- 상단 여백 표시 -->
+      <rect x="20" y="5" width="60" height="28" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.4" stroke-dasharray="1.5,1.5"/>
+      <text x="50" y="21" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="3" font-family="sans-serif">배경 여백</text>
+    </svg>`;
+
+  } else if (type === '매장 내부') {
+    svg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- 소실점 대각선 -->
+      <line x1="0" y1="0" x2="50" y2="50" stroke="rgba(255,220,100,0.5)" stroke-width="0.6" stroke-dasharray="2,2"/>
+      <line x1="100" y1="0" x2="50" y2="50" stroke="rgba(255,220,100,0.5)" stroke-width="0.6" stroke-dasharray="2,2"/>
+      <line x1="0" y1="100" x2="50" y2="50" stroke="rgba(255,220,100,0.5)" stroke-width="0.6" stroke-dasharray="2,2"/>
+      <line x1="100" y1="100" x2="50" y2="50" stroke="rgba(255,220,100,0.5)" stroke-width="0.6" stroke-dasharray="2,2"/>
+      <!-- 소실점 -->
+      <circle cx="50" cy="50" r="3" fill="none" stroke="rgba(255,220,100,0.8)" stroke-width="0.8"/>
+      <circle cx="50" cy="50" r="1" fill="rgba(255,220,100,0.8)"/>
+      <text x="50" y="44" text-anchor="middle" fill="rgba(255,220,100,0.8)" font-size="3.5" font-family="sans-serif">소실점</text>
+      <!-- 바닥선 -->
+      <line x1="0" y1="70" x2="100" y2="70" stroke="rgba(255,255,255,0.2)" stroke-width="0.4" stroke-dasharray="1.5,1.5"/>
+      <text x="50" y="75" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="3" font-family="sans-serif">바닥선</text>
+    </svg>`;
+
+  } else if (type === '신메뉴 소개') {
+    svg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- 중앙 포커스 원 -->
+      <circle cx="50" cy="45" r="28" fill="none" stroke="rgba(255,220,100,0.6)" stroke-width="0.8" stroke-dasharray="2,2"/>
+      <circle cx="50" cy="45" r="20" fill="none" stroke="rgba(255,220,100,0.4)" stroke-width="0.5"/>
+      <!-- 중앙 십자 -->
+      <line x1="46" y1="45" x2="54" y2="45" stroke="rgba(255,220,100,0.8)" stroke-width="0.6"/>
+      <line x1="50" y1="41" x2="50" y2="49" stroke="rgba(255,220,100,0.8)" stroke-width="0.6"/>
+      <text x="50" y="38" text-anchor="middle" fill="rgba(255,220,100,0.8)" font-size="3.5" font-family="sans-serif">메뉴 중앙 배치</text>
+      <!-- 하단 텍스트 영역 -->
+      <rect x="10" y="76" width="80" height="16" fill="rgba(0,0,0,0.2)" stroke="rgba(255,255,255,0.3)" stroke-width="0.4" stroke-dasharray="1.5,1.5"/>
+      <text x="50" y="85" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="3" font-family="sans-serif">메뉴명 텍스트 영역</text>
+    </svg>`;
+
+  } else if (type === '제조 과정') {
+    svg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- 작업대 영역 -->
+      <rect x="5" y="55" width="90" height="35" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.2)" stroke-width="0.4" stroke-dasharray="1.5,1.5"/>
+      <text x="50" y="65" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="3" font-family="sans-serif">작업 공간</text>
+      <!-- 왼손 가이드 -->
+      <g transform="translate(25,72)" opacity="0.7">
+        <ellipse cx="0" cy="0" rx="8" ry="10" fill="none" stroke="rgba(255,220,100,0.6)" stroke-width="0.7"/>
+        <text x="0" y="15" text-anchor="middle" fill="rgba(255,220,100,0.7)" font-size="3" font-family="sans-serif">왼손</text>
+      </g>
+      <!-- 오른손 가이드 -->
+      <g transform="translate(75,72)" opacity="0.7">
+        <ellipse cx="0" cy="0" rx="8" ry="10" fill="none" stroke="rgba(255,220,100,0.6)" stroke-width="0.7"/>
+        <text x="0" y="15" text-anchor="middle" fill="rgba(255,220,100,0.7)" font-size="3" font-family="sans-serif">오른손</text>
+      </g>
+      <!-- 상단 카메라 앵글 안내 -->
+      <path d="M20,10 L80,10 L80,50 L20,50 Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.4" stroke-dasharray="1.5,1.5"/>
+      <text x="50" y="32" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="3.5" font-family="sans-serif">45도 내려다보기</text>
+    </svg>`;
+
+  } else if (type === '일상·감성') {
+    svg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- 황금비율 포인트 4개 -->
+      <circle cx="33.3" cy="33.3" r="3" fill="none" stroke="rgba(255,220,100,0.8)" stroke-width="0.8"/>
+      <circle cx="66.6" cy="33.3" r="3" fill="none" stroke="rgba(255,220,100,0.8)" stroke-width="0.8"/>
+      <circle cx="33.3" cy="66.6" r="3" fill="none" stroke="rgba(255,220,100,0.8)" stroke-width="0.8"/>
+      <circle cx="66.6" cy="66.6" r="3" fill="none" stroke="rgba(255,220,100,0.8)" stroke-width="0.8"/>
+      <!-- 중심 연결선 -->
+      <line x1="33.3" y1="33.3" x2="66.6" y2="66.6" stroke="rgba(255,220,100,0.2)" stroke-width="0.4"/>
+      <line x1="66.6" y1="33.3" x2="33.3" y2="66.6" stroke="rgba(255,220,100,0.2)" stroke-width="0.4"/>
+      <text x="50" y="50" text-anchor="middle" fill="rgba(255,220,100,0.6)" font-size="3.5" font-family="sans-serif">주피사체를</text>
+      <text x="50" y="55" text-anchor="middle" fill="rgba(255,220,100,0.6)" font-size="3.5" font-family="sans-serif">교차점에</text>
+    </svg>`;
+
+  } else if (type === '이벤트·할인') {
+    svg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- 중앙 텍스트 박스 -->
+      <rect x="12" y="25" width="76" height="50" rx="2" fill="rgba(192,32,42,0.1)" stroke="rgba(192,32,42,0.5)" stroke-width="0.8" stroke-dasharray="2,2"/>
+      <!-- 상단 강조 라인 -->
+      <line x1="20" y1="38" x2="80" y2="38" stroke="rgba(255,220,100,0.4)" stroke-width="0.4"/>
+      <!-- 메인 텍스트 영역 -->
+      <rect x="20" y="42" width="60" height="16" fill="rgba(255,220,100,0.08)" stroke="rgba(255,220,100,0.3)" stroke-width="0.4"/>
+      <text x="50" y="52" text-anchor="middle" fill="rgba(255,220,100,0.7)" font-size="3.5" font-family="sans-serif">이벤트 문구 영역</text>
+      <!-- 하단 보조 텍스트 -->
+      <rect x="25" y="62" width="50" height="8" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.4"/>
+      <text x="50" y="67.5" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="3" font-family="sans-serif">기간·조건 텍스트</text>
+      <text x="50" y="22" text-anchor="middle" fill="rgba(255,220,100,0.6)" font-size="3.5" font-family="sans-serif">중앙에 이벤트 내용 배치</text>
+    </svg>`;
+
+  } else if (type === '시즌 메뉴') {
+    svg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- 상단 메인 영역 -->
+      <rect x="10" y="8" width="80" height="55" fill="rgba(255,255,255,0.03)" stroke="rgba(255,220,100,0.4)" stroke-width="0.6" stroke-dasharray="2,2"/>
+      <text x="50" y="38" text-anchor="middle" fill="rgba(255,220,100,0.6)" font-size="3.5" font-family="sans-serif">시즌 메뉴</text>
+      <text x="50" y="44" text-anchor="middle" fill="rgba(255,220,100,0.6)" font-size="3.5" font-family="sans-serif">메인 이미지</text>
+      <!-- 계절 아이콘 힌트 -->
+      <circle cx="25" cy="25" r="6" fill="none" stroke="rgba(255,220,100,0.3)" stroke-width="0.5"/>
+      <text x="25" y="27" text-anchor="middle" fill="rgba(255,220,100,0.5)" font-size="5" font-family="sans-serif">☀</text>
+      <!-- 하단 텍스트 영역 -->
+      <rect x="10" y="68" width="80" height="24" fill="rgba(0,0,0,0.15)" stroke="rgba(255,255,255,0.25)" stroke-width="0.4" stroke-dasharray="1.5,1.5"/>
+      <text x="50" y="78" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="3" font-family="sans-serif">시즌명 · 가격 텍스트</text>
+      <text x="50" y="84" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="2.8" font-family="sans-serif">출시기간 안내</text>
+    </svg>`;
+
+  } else if (type === '직원·바리스타') {
+    svg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- 인물 상반신 가이드 -->
+      <!-- 머리 -->
+      <circle cx="50" cy="22" r="11" fill="none" stroke="rgba(255,220,100,0.6)" stroke-width="0.8" stroke-dasharray="2,2"/>
+      <text x="50" y="14" text-anchor="middle" fill="rgba(255,220,100,0.6)" font-size="3" font-family="sans-serif">얼굴</text>
+      <!-- 어깨 라인 -->
+      <path d="M20,38 Q35,33 50,33 Q65,33 80,38" fill="none" stroke="rgba(255,220,100,0.5)" stroke-width="0.7"/>
+      <!-- 상반신 -->
+      <path d="M20,38 L15,75 L85,75 L80,38" fill="rgba(255,220,100,0.04)" stroke="rgba(255,220,100,0.3)" stroke-width="0.5" stroke-dasharray="1.5,1.5"/>
+      <text x="50" y="58" text-anchor="middle" fill="rgba(255,220,100,0.5)" font-size="3.5" font-family="sans-serif">상반신</text>
+      <!-- 1/3 라인 안내 -->
+      <text x="50" y="90" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="3" font-family="sans-serif">눈높이를 상단 1/3에</text>
+    </svg>`;
+
+  } else {
+    // 기본 황금비율
+    svg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="33.3" cy="33.3" r="2.5" fill="rgba(255,220,100,0.7)"/>
+      <circle cx="66.6" cy="33.3" r="2.5" fill="rgba(255,220,100,0.7)"/>
+      <circle cx="33.3" cy="66.6" r="2.5" fill="rgba(255,220,100,0.7)"/>
+      <circle cx="66.6" cy="66.6" r="2.5" fill="rgba(255,220,100,0.7)"/>
+    </svg>`;
+  }
+
+  overlay.innerHTML = svg;
 }
 
 async function startCamera() {
