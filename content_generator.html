@@ -408,6 +408,10 @@ async function generate() {
 
     clearInterval(msgTimer);
     const data = await response.json();
+    console.log('API 응답:', JSON.stringify(data));
+    if (!data.content || !Array.isArray(data.content)) {
+      throw new Error('API 응답 오류: ' + JSON.stringify(data));
+    }
     const raw = data.content.map(i => i.text || '').join('');
     const clean = raw.replace(/```json|```/g, '').trim();
     const result = JSON.parse(clean);
