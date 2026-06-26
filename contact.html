@@ -443,14 +443,36 @@
       <label>문의 내용</label>
       <textarea placeholder="필요한 품목, 수량, 납품 주기 등 자세히 적어주시면 빠른 안내가 가능합니다."></textarea>
     </div>
-    <button class="submit-btn" onclick="goToKakao()">문의 보내기</button>
+    <button class="submit-btn" onclick="sendInquiry()">문의 보내기</button>
     <p class="form-notice">사업자 전용 서비스입니다. 개인 구매는 별도 문의 바랍니다.</p>
   </div>
 </div>
 
 <script>
-  function goToKakao() {
-    window.open('http://pf.kakao.com/_yBGxjX', '_blank');
+  function sendInquiry() {
+    const formGroups = document.querySelectorAll('.contact-right .form-group, .contact-right .form-row .form-group');
+    const company = document.querySelector('.form-row .form-group:nth-child(1) input').value;
+    const name = document.querySelector('.form-row .form-group:nth-child(2) input').value;
+    const phone = document.querySelector('.contact-right input[type="tel"]').value;
+    const itemSelect = document.querySelector('.contact-right select');
+    const item = itemSelect.options[itemSelect.selectedIndex] ? itemSelect.options[itemSelect.selectedIndex].text : '';
+    const message = document.querySelector('.contact-right textarea').value;
+
+    if (!company || !name || !phone) {
+      alert('상호명, 담당자명, 연락처는 필수로 입력해주세요.');
+      return;
+    }
+
+    const subject = encodeURIComponent('[ARDIVO 문의] ' + company + ' - ' + item);
+    const body = encodeURIComponent(
+      '상호명: ' + company + '\n' +
+      '담당자명: ' + name + '\n' +
+      '연락처: ' + phone + '\n' +
+      '문의 품목: ' + item + '\n\n' +
+      '문의 내용:\n' + message
+    );
+
+    window.location.href = 'mailto:hello.ardivo@gmail.com?subject=' + subject + '&body=' + body;
   }
 </script>
 
