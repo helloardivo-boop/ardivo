@@ -448,9 +448,14 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
+  (function() {
+    emailjs.init('FSPjFcmqpscHkkQNc');
+  })();
+
   function sendInquiry() {
-    const formGroups = document.querySelectorAll('.contact-right .form-group, .contact-right .form-row .form-group');
+    const submitBtn = document.querySelector('.submit-btn');
     const company = document.querySelector('.form-row .form-group:nth-child(1) input').value;
     const name = document.querySelector('.form-row .form-group:nth-child(2) input').value;
     const phone = document.querySelector('.contact-right input[type="tel"]').value;
@@ -463,16 +468,30 @@
       return;
     }
 
-    const subject = encodeURIComponent('[ARDIVO 문의] ' + company + ' - ' + item);
-    const body = encodeURIComponent(
-      '상호명: ' + company + '\n' +
-      '담당자명: ' + name + '\n' +
-      '연락처: ' + phone + '\n' +
-      '문의 품목: ' + item + '\n\n' +
-      '문의 내용:\n' + message
-    );
+    submitBtn.disabled = true;
+    submitBtn.textContent = '전송 중...';
 
-    window.location.href = 'mailto:hello.ardivo@gmail.com?subject=' + subject + '&body=' + body;
+    emailjs.send('service_bcy7c7r', 'template_mixdhxs', {
+      company: company,
+      name: name,
+      phone: phone,
+      item: item,
+      message: message
+    }).then(function() {
+      alert('문의가 정상적으로 전송되었습니다. 빠르게 연락드리겠습니다.');
+      document.querySelector('.form-row .form-group:nth-child(1) input').value = '';
+      document.querySelector('.form-row .form-group:nth-child(2) input').value = '';
+      document.querySelector('.contact-right input[type="tel"]').value = '';
+      itemSelect.selectedIndex = 0;
+      document.querySelector('.contact-right textarea').value = '';
+      submitBtn.disabled = false;
+      submitBtn.textContent = '문의 보내기';
+    }, function(error) {
+      alert('전송에 실패했습니다. 잠시 후 다시 시도해주시거나 카카오톡/전화로 문의해주세요.');
+      console.error('EmailJS Error:', error);
+      submitBtn.disabled = false;
+      submitBtn.textContent = '문의 보내기';
+    });
   }
 </script>
 
