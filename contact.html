@@ -306,186 +306,6 @@
     footer { flex-direction: column; gap: 24px; padding: 40px 24px; }
     .footer-info { text-align: center; }
   }
-
-  /* 햄버거 메뉴 */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    padding: 4px;
-    background: none;
-    border: none;
-    z-index: 200;
-  }
-  .hamburger span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--cream);
-    transition: all 0.3s ease;
-    transform-origin: center;
-  }
-  .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .hamburger.active span:nth-child(2) { opacity: 0; }
-  .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  /* 모바일 드롭다운 메뉴 */
-  .mobile-menu {
-    display: none;
-    position: fixed;
-    top: 84px;
-    left: 0; right: 0;
-    background: rgba(6,15,26,0.98);
-    border-bottom: 1px solid rgba(192,192,192,0.15);
-    z-index: 99;
-    flex-direction: column;
-    padding: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.3s ease;
-  }
-  .mobile-menu.open {
-    max-height: 400px;
-    padding: 16px 0;
-  }
-  .mobile-menu a {
-    display: block;
-    padding: 16px 32px;
-    color: var(--cream);
-    text-decoration: none;
-    font-size: 13px;
-    letter-spacing: 3px;
-    opacity: 0.8;
-    transition: all 0.2s;
-    border-bottom: 1px solid rgba(192,192,192,0.06);
-  }
-  .mobile-menu a:last-child { border-bottom: none; }
-  .mobile-menu a:hover, .mobile-menu a.active { opacity: 1; color: var(--red); }
-  .mobile-menu .mobile-sns {
-    display: flex; gap: 16px;
-    padding: 16px 32px 8px;
-  }
-  .mobile-menu .mobile-sns a {
-    padding: 0; border: 1px solid rgba(192,192,192,0.25);
-    width: 36px; height: 36px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 50%;
-  }
-  .mobile-menu .mobile-sns a svg { width: 14px; height: 14px; fill: var(--cream); }
-
-  @media (max-width: 768px) {
-    nav { padding: 16px 24px; }
-    .nav-links { display: none !important; }
-    .nav-right { display: none !important; }
-    .hamburger { display: flex; }
-    .mobile-menu { display: flex; }
-  }
-
-  @media (max-width: 768px) {
-    /* 전체 텍스트 모바일 최적화 */
-    h1, h2, h3, .page-title, .sec-title, .section-title,
-    .brand-left h2, .cta-title, .step-title, .block-title {
-      text-align: center !important;
-      word-break: keep-all !important;
-      overflow-wrap: break-word !important;
-    }
-    p, .sec-desc, .page-desc, .step-desc, .brand-desc,
-    .cta-desc, .block-desc, .adv-desc, .point-text p,
-    .interior-note p, .section-sub, .about-block p {
-      text-align: center !important;
-      word-break: keep-all !important;
-      overflow-wrap: break-word !important;
-      line-height: 1.95 !important;
-    }
-    .sec-label, .page-label, .section-label, .block-label,
-    .adv-title, .card-name, .machine-name, .machine-brand,
-    .machine-grade, .footer-brand {
-      text-align: center !important;
-    }
-    /* 버튼 가운데 */
-    .sec-btn, .cta-btn, .block-btn {
-      display: block !important;
-      text-align: center !important;
-      margin: 0 auto !important;
-    }
-    /* 태그 가운데 */
-    .block-tags, .supplies-tags, .bakery-tags, .bean-points {
-      justify-content: center !important;
-    }
-    /* 구분선 가운데 */
-    .hero-divider {
-      margin: 0 auto 32px !important;
-    }
-    /* 프로세스 카드 */
-    .process-card {
-      text-align: center !important;
-      padding: 40px 24px !important;
-    }
-    .step-header {
-      flex-direction: column !important;
-      align-items: center !important;
-      text-align: center !important;
-    }
-    .step-num {
-      font-size: 56px !important;
-    }
-    .step-details {
-      align-items: center !important;
-    }
-    .step-detail-item {
-      justify-content: center !important;
-      text-align: center !important;
-    }
-    /* 강점 카드 */
-    .adv-icon { margin: 0 auto 24px !important; }
-    .advantage-card { text-align: center !important; }
-    .adv-tag { display: block !important; text-align: center !important; }
-    /* 브랜드 스토리 */
-    .brand-word-block { text-align: center !important; }
-    .bean-point {
-      flex-direction: column !important;
-      align-items: center !important;
-      text-align: center !important;
-    }
-    .point-num { min-width: auto !important; }
-    /* 연락처 */
-    .channel-card {
-      flex-direction: column !important;
-      align-items: center !important;
-      text-align: center !important;
-    }
-    .contact-section {
-      grid-template-columns: 1fr !important;
-    }
-    /* 푸터 */
-    .footer-inner {
-      grid-template-columns: 1fr !important;
-      text-align: center !important;
-    }
-    .footer-right { text-align: center !important; }
-    .footer-bottom {
-      flex-direction: column !important;
-      gap: 16px !important;
-      text-align: center !important;
-    }
-    /* 어바웃 */
-    .about-grid {
-      grid-template-columns: 1fr !important;
-    }
-    .strength-item {
-      flex-direction: column !important;
-      align-items: center !important;
-      text-align: center !important;
-    }
-    /* 인테리어 헤더 */
-    .interior-header {
-      flex-direction: column !important;
-      gap: 24px !important;
-      padding: 0 24px !important;
-      text-align: center !important;
-    }
-  }
 </style>
 </head>
 <body>
@@ -496,13 +316,7 @@
     <li><a href="about.html">ABOUT</a></li>
     <li><a href="products.html">PRODUCTS</a></li>
     <li><a href="process.html">PROCESS</a></li>
-    <li><a href="studio.html">STUDIO</a></li>
   </ul>
-    <button class="hamburger" id="hamburger" aria-label="메뉴">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
   <div class="nav-right">
   <div class="nav-sns">
     <a href="https://www.instagram.com/ardivo.kr/" target="_blank" class="nav-sns-btn" title="Instagram">
@@ -514,21 +328,6 @@
   </div>  <a href="contact.html" class="nav-contact active">CONTACT</a>
   </div>
 </nav>
-<!-- 모바일 메뉴 -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="about.html">ABOUT</a>
-  <a href="products.html">PRODUCTS</a>
-  <a href="process.html">PROCESS</a>
-  <a href="contact.html" class="active">CONTACT</a>
-  <div class="mobile-sns">
-    <a href="https://www.instagram.com/ardivo.kr/" target="_blank">
-      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-    </a>
-    <a href="https://blog.naver.com/soomju" target="_blank">
-      <svg viewBox="0 0 24 24"><path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727z"/></svg>
-    </a>
-  </div>
-</div>
 
 <div class="page-hero">
   <div class="hero-bg"></div>
@@ -644,10 +443,16 @@
       <label>문의 내용</label>
       <textarea placeholder="필요한 품목, 수량, 납품 주기 등 자세히 적어주시면 빠른 안내가 가능합니다."></textarea>
     </div>
-    <button class="submit-btn">문의 보내기</button>
+    <button class="submit-btn" onclick="goToKakao()">문의 보내기</button>
     <p class="form-notice">사업자 전용 서비스입니다. 개인 구매는 별도 문의 바랍니다.</p>
   </div>
 </div>
+
+<script>
+  function goToKakao() {
+    window.open('http://pf.kakao.com/_yBGxjX', '_blank');
+  }
+</script>
 
 <footer>
   <div class="footer-inner">
@@ -682,21 +487,5 @@
   </div>
 </footer>
 
-<script>
-  // 햄버거 메뉴
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    mobileMenu.classList.toggle('open');
-  });
-  // 메뉴 외부 클릭시 닫기
-  document.addEventListener('click', (e) => {
-    if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
-      hamburger.classList.remove('active');
-      mobileMenu.classList.remove('open');
-    }
-  });
-</script>
 </body>
 </html>
