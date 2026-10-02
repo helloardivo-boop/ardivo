@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PRODUCTS — ARDIVO</title>
 <meta property="og:title" content="PRODUCTS — ARDIVO">
-<meta property="og:description" content="원두 납품부터 커피머신, 인테리어, 디저트까지. ARDIVO의 모든 서비스.">
+<meta property="og:description" content="원두부터 커피머신, 인테리어, 디저트까지. 카페에 필요한 것을 ARDIVO가 함께합니다.">
 <meta property="og:image" content="https://ardivo.co.kr/og_image.png">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" rel="stylesheet">
@@ -30,10 +30,10 @@
     border-bottom: 1px solid rgba(192,192,192,0.15);
   }
   .nav-logo img { height: 44px; }
-  .nav-links { display: flex; gap: 40px; list-style: none; align-items: center; }
-  .nav-links a { color: var(--cream); text-decoration: none; font-size: 13px; letter-spacing: 3px; opacity: 0.8; transition: opacity 0.2s; display: flex; align-items: center; }
+  .nav-links { display: flex; gap: 24px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--cream); text-decoration: none; font-size: 13px; letter-spacing: 2px; opacity: 0.8; transition: opacity 0.2s; display: flex; align-items: center; }
   .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--red); }
-  .nav-right { display: flex; align-items: center; gap: 20px; margin-left: 40px; }
+  .nav-right { display: flex; align-items: center; gap: 20px; margin-left: 16px; }
   .nav-contact { font-size: 11px; letter-spacing: 2px; color: var(--cream); border: 1px solid rgba(192,192,192,0.4); padding: 10px 24px; text-decoration: none; transition: all 0.3s; }
   .nav-contact:hover { background: var(--red); border-color: var(--red); }
   .nav-sns { display: flex; align-items: center; gap: 16px; }
@@ -81,6 +81,13 @@
   .machine-section { padding: 120px 0; background: rgba(12,35,64,0.15); }
   .machine-header { padding: 0 60px; margin-bottom: 60px; }
   .machine-header .sec-title { font-size: 44px; }
+  #machine.machine-section { padding-top: 0; }
+  .machine-hero { position: relative; overflow: hidden; min-height: 70vh; display: flex; align-items: center; margin-bottom: 60px; }
+  .machine-hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
+  .machine-hero-ov { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(6,15,26,0.35) 0%, rgba(6,15,26,0.55) 60%, rgba(6,15,26,0.95) 100%); }
+  .machine-hero .machine-header { position: relative; z-index: 2; margin: 0 auto; max-width: 1300px; width: 100%; padding: 120px 60px; }
+  .machine-slogan { font-family: 'Cinzel', serif; font-size: 22px; letter-spacing: 8px; color: var(--cream); margin-bottom: 28px; }
+  .machine-slogan span { color: var(--red); }
   .machine-slider-wrap { position: relative; overflow: hidden; }
   .machine-slider-track { display: flex; gap: 0; transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); }
   .machine-slide {
@@ -177,6 +184,10 @@
     .bean-content { padding: 80px 24px; }
     .sec-title { font-size: 32px; }
     .machine-section, .interior-section { padding: 80px 0; }
+    #machine.machine-section { padding-top: 0; }
+    .machine-hero { min-height: 60vh; margin-bottom: 40px; }
+    .machine-hero .machine-header { padding: 100px 24px; }
+    .machine-slogan { font-size: 15px; letter-spacing: 4px; text-align: center; }
     .machine-header, .interior-header, .interior-note { padding: 0 24px; }
     .machine-slide { width: 85%; }
     .interior-slide { width: calc(100% - 2px); }
@@ -370,6 +381,22 @@
       text-align: center !important;
     }
   }
+
+  @media (max-width: 1100px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none !important; }
+    .nav-right { display: none !important; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+  }
+
+  /* v3 text sections */
+  .machine-guide { max-width: 1300px; margin: 0 auto; padding: 0 60px; }
+  .machine-guide > * { max-width: 700px; }
+  .bean-section.compact { min-height: 80vh; }
+  .bean-section.flip .bean-overlay { background: linear-gradient(to left, rgba(6,15,26,0.8) 40%, rgba(6,15,26,0.15) 100%); }
+  .bean-section.flip .bean-content { margin-left: auto; }
+  @media (max-width: 768px) { .machine-guide { padding: 0 24px; } .bean-section.compact { min-height: 70vh; } .bean-section .bean-overlay { background: rgba(6,15,26,0.72) !important; } }
 </style>
 </head>
 <body>
@@ -379,6 +406,8 @@
   <div class="nav-logo"><a href="index.html"><img src="logo.png" alt="ARDIVO"></a></div>
   <ul class="nav-links">
     <li><a href="about.html">ABOUT</a></li>
+    <li><a href="consulting.html">CONSULTING</a></li>
+    <li><a href="apartment.html">APARTMENT</a></li>
     <li><a href="products.html" class="active">PRODUCTS</a></li>
     <li><a href="process.html">PROCESS</a></li>
     <li><a href="studio.html">STUDIO</a></li>
@@ -403,6 +432,8 @@
 <!-- 모바일 메뉴 -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="about.html">ABOUT</a>
+  <a href="consulting.html">CONSULTING</a>
+  <a href="apartment.html">APARTMENT</a>
   <a href="products.html" class="active">PRODUCTS</a>
   <a href="process.html">PROCESS</a>
   <a href="studio.html">STUDIO</a>
@@ -429,7 +460,7 @@
   </div>
 </div>
 
-<!-- 01 원두 납품 -->
+<!-- 01 원두 -->
 <section class="bean-section" id="coffee">
   <video class="bean-video" autoplay muted loop playsinline>
     <source src="roasting.mp4" type="video/mp4">
@@ -437,8 +468,8 @@
   <div class="bean-overlay"></div>
   <div class="bean-content">
     <p class="sec-label">01 · COFFEE BEAN</p>
-    <h2 class="sec-title">원두 납품</h2>
-    <p class="sec-desc">직접 로스팅한 원두를 카페, 사무실, 휴게소 등 모든 공간에 정기 납품합니다. 커스텀 블렌드 제작부터 싱글오리진, 디카페인까지 원두에 관한 모든 것을 함께 설계합니다.</p>
+    <h2 class="sec-title">원두</h2>
+    <p class="sec-desc">직접 로스팅한 원두를 카페와 사무실 등 필요한 곳에 보내드립니다. 카페 콘셉트에 맞는 블렌드부터 싱글오리진, 디카페인까지 같이 정합니다.</p>
     <div class="bean-points">
       <div class="bean-point">
         <span class="point-num">01</span>
@@ -450,8 +481,8 @@
       <div class="bean-point">
         <span class="point-num">02</span>
         <div class="point-text">
-          <h4>직접 로스팅 · 정기납품</h4>
-          <p>신선한 원두를 로스팅 후 바로 납품. 정기 계약으로 재고 걱정 없이 운영하세요.</p>
+          <h4>직접 로스팅 · 정기 배송</h4>
+          <p>로스팅하고 바로 보내드려요. 정기로 받으면 재고 걱정 없이 운영할 수 있어요.</p>
         </div>
       </div>
       <div class="bean-point">
@@ -462,90 +493,63 @@
         </div>
       </div>
     </div>
-    <a href="contact.html" class="sec-btn">원두 납품 문의 <span>→</span></a>
+    <a href="contact.html" class="sec-btn">원두 문의 <span>→</span></a>
   </div>
 </section>
 
 <!-- 02 커피머신 -->
 <section class="machine-section" id="machine">
-  <div class="machine-header">
-    <p class="sec-label">02 · COFFEE MACHINE</p>
-    <h2 class="sec-title">커피머신</h2>
-    <p class="sec-desc" style="max-width:700px; margin-top:12px;">커피머신 엔지니어가 직접 진단하고 최적의 장비를 제안합니다. 설치부터 AS까지 책임집니다.</p>
+  <div class="machine-hero">
+    <video autoplay muted loop playsinline>
+      <source src="hero.mp4" type="video/mp4">
+    </video>
+    <div class="machine-hero-ov"></div>
+    <div class="machine-header">
+      <p class="sec-label">02 · COFFEE MACHINE</p>
+      <h2 class="sec-title">커피머신</h2>
+      <p class="sec-desc" style="max-width:700px; margin-top:12px; margin-bottom:0;">커피머신 엔지니어가 직접 진단하고 맞는 장비를 제안합니다. 설치와 초기 세팅, 이후 점검 방문까지 함께합니다.</p>
+    </div>
   </div>
-  <div class="machine-slider-wrap">
-    <div class="machine-slider-track" id="machineTrack">
-      <div class="machine-slide">
-        <div class="machine-slide-img"><img src="machine1.jpg" alt="프리즈마"></div>
-        <div class="machine-slide-info">
-          <p class="machine-grade">ENTRY · 합리적인 선택</p>
-          <p class="machine-name">프리즈마 T300</p>
-          <p class="machine-brand">PRISMA · 2그룹</p>
-          <p class="machine-desc">독립 보일러 시스템으로 안정적인 추출 압력을 유지합니다. 창업 초기 카페에 최적화된 가성비 머신.</p>
+  <div class="machine-guide">
+    <h2 class="sec-title" style="font-size:34px">어떤 머신이 맞는지, 이렇게 정합니다</h2>
+    <div class="bean-points">
+      <div class="bean-point">
+        <span class="point-num">01</span>
+        <div class="point-text">
+          <h4>매장 규모와 메뉴부터 봅니다</h4>
+          <p>하루에 나올 잔 수, 라떼 같은 우유 메뉴 비중, 운영하실 분의 숙련도를 먼저 확인합니다.</p>
         </div>
       </div>
-      <div class="machine-slide">
-        <div class="machine-slide-img"><img src="machine2.png" alt="씨메 시그니처" style="object-fit:contain; background:#0C2340; padding:20px;"></div>
-        <div class="machine-slide-info">
-          <p class="machine-grade">MID · 스페셜티 카페 추천</p>
-          <p class="machine-name">CIME CO-05 시그니처</p>
-          <p class="machine-brand">CIME · 2그룹</p>
-          <p class="machine-desc">정밀한 온도 관리와 세련된 디자인. 스페셜티 커피를 추구하는 카페에 최적의 선택.</p>
+      <div class="bean-point">
+        <span class="point-num">02</span>
+        <div class="point-text">
+          <h4>예산에 맞춰 단계로 추천합니다</h4>
+          <p>입문은 프리즈마, 스페셜티를 지향하면 CIME나 FAEMA E61, 물량이 많거나 오래 쓸 매장은 La Marzocco나 Sanremo처럼, 상황에 맞는 한두 가지로 좁혀 드립니다.</p>
         </div>
       </div>
-      <div class="machine-slide">
-        <div class="machine-slide-img"><img src="machine3.jpg" alt="FAEMA E61"></div>
-        <div class="machine-slide-info">
-          <p class="machine-grade">MID · 클래식 감성</p>
-          <p class="machine-name">FAEMA E61 쥬빌레</p>
-          <p class="machine-brand">FAEMA · 2그룹 화이트에디션</p>
-          <p class="machine-desc">에스프레소 머신의 전설, E61 그룹헤드 탑재. 레트로 감성과 안정적인 성능을 동시에.</p>
-        </div>
-      </div>
-      <div class="machine-slide">
-        <div class="machine-slide-img"><img src="machine4.jpg" alt="라마르조꼬 리네아 클래식" style="object-fit:contain; background:#f0f0f0; padding:10px;"></div>
-        <div class="machine-slide-info">
-          <p class="machine-grade">MID-HIGH · 스페셜티 필수</p>
-          <p class="machine-name">La Marzocco Linea Classic</p>
-          <p class="machine-brand">LA MARZOCCO · 3그룹</p>
-          <p class="machine-desc">세계 스페셜티 카페의 표준. 듀얼 보일러 시스템과 압도적인 안정성으로 전 세계 바리스타가 선택하는 머신.</p>
-        </div>
-      </div>
-      <div class="machine-slide">
-        <div class="machine-slide-img"><img src="machine5.jpg" alt="산레모" style="object-fit:contain; background:#e8e8e8; padding:10px;"></div>
-        <div class="machine-slide-info">
-          <p class="machine-grade">HIGH · 하이엔드</p>
-          <p class="machine-name">Sanremo F18</p>
-          <p class="machine-brand">SANREMO · 2그룹</p>
-          <p class="machine-desc">이탈리아 명품 에스프레소 머신. 뛰어난 추출 안정성과 독보적인 디자인으로 시선을 사로잡습니다.</p>
-        </div>
-      </div>
-      <div class="machine-slide">
-        <div class="machine-slide-img"><img src="machine6.jpg" alt="슬레이어" style="object-fit:contain; background:#e8e8e8; padding:10px;"></div>
-        <div class="machine-slide-info">
-          <p class="machine-grade">PREMIUM · 최고급</p>
-          <p class="machine-name">Slayer Steam EP</p>
-          <p class="machine-brand">SLAYER · 3그룹 블랙</p>
-          <p class="machine-desc">바리스타의 손끝 압력까지 조절 가능한 세계 최고의 에스프레소 머신. 장인 정신이 담긴 하이엔드 머신.</p>
+      <div class="bean-point">
+        <span class="point-num">03</span>
+        <div class="point-text">
+          <h4>설치와 그 뒤까지 같이 갑니다</h4>
+          <p>설치 공간의 전기와 급배수를 확인하고, 설치와 초기 세팅을 하고, 소모품 교체 때 들러 점검합니다.</p>
         </div>
       </div>
     </div>
-  </div>
-  <div class="machine-controls">
-    <button class="machine-btn" id="machinePrev">←</button>
-    <button class="machine-btn" id="machineNext">→</button>
-    <div class="machine-dots" id="machineDots"></div>
+    <a href="contact.html" class="sec-btn">머신 상담 <span>→</span></a>
   </div>
 </section>
 
-<!-- 03 부자재 -->
-<section class="supplies-section" id="supplies">
-  <div class="supplies-bg"></div>
-  <div class="supplies-overlay"></div>
-  <div class="supplies-content">
+<!-- 03 부자재 · 냉동생지 · 디저트 -->
+<section class="bean-section flip compact" id="supplies">
+  <span id="bakery"></span>
+  <video class="bean-video" autoplay muted loop playsinline>
+    <source src="scene-proposal.mp4" type="video/mp4">
+  </video>
+  <div class="bean-overlay"></div>
+  <div class="bean-content">
     <p class="sec-label">03 · SUPPLIES</p>
-    <h2 class="sec-title">부자재</h2>
-    <p class="sec-desc">카페 운영에 필요한 모든 부자재를 정기 납품합니다. 필요한 품목과 수량을 알려주시면 최적의 구성을 제안합니다.</p>
+    <h2 class="sec-title">부자재 · 냉동생지 · 디저트</h2>
+    <p class="sec-desc">카페 운영에 필요한 부자재와, 굽기만 하면 되는 냉동생지·디저트를 같이 챙겨 드립니다. 필요한 품목과 수량을 알려주시면 매장에 맞게 정리해 드립니다.</p>
     <div class="supplies-tags">
       <span class="s-tag">테이크아웃 컵</span>
       <span class="s-tag">시럽 · 소스</span>
@@ -553,56 +557,50 @@
       <span class="s-tag">종이백</span>
       <span class="s-tag">필터</span>
       <span class="s-tag">청소용품</span>
-      <span class="s-tag">정기납품</span>
-    </div>
-    <a href="contact.html" class="sec-btn" style="margin-top:36px;">부자재 문의 <span>→</span></a>
-  </div>
-</section>
-
-<!-- 04 냉동생지 · 디저트 -->
-<section class="bakery-section" id="bakery">
-  <div class="bakery-bg"></div>
-  <div class="bakery-overlay"></div>
-  <div class="bakery-content">
-    <p class="sec-label">04 · FROZEN DOUGH · DESSERT</p>
-    <h2 class="sec-title">냉동생지 · 디저트</h2>
-    <p class="sec-desc">별도 제빵 인력 없이 베이커리 메뉴를 운영할 수 있습니다. 굽기만 하면 완성되는 프리미엄 냉동생지와 디저트류를 정기 납품합니다.</p>
-    <div class="bakery-tags">
       <span class="s-tag">크루아상</span>
       <span class="s-tag">페이스트리</span>
       <span class="s-tag">스콘</span>
       <span class="s-tag">머핀</span>
       <span class="s-tag">디저트류</span>
-      <span class="s-tag">정기납품</span>
     </div>
-    <a href="contact.html" class="sec-btn" style="margin-top:36px;">납품 문의 <span>→</span></a>
+    <a href="contact.html" class="sec-btn" style="margin-top:36px;">부자재 문의 <span>→</span></a>
   </div>
 </section>
 
-<!-- 05 인테리어 -->
-<section class="interior-section" id="interior">
-  <div class="interior-header">
-    <div>
-      <p class="sec-label">05 · INTERIOR</p>
-      <h2 class="sec-title">인테리어</h2>
+<!-- 04 인테리어 -->
+<section class="bean-section compact" id="interior">
+  <video class="bean-video" autoplay muted loop playsinline>
+    <source src="scene-interior.mp4" type="video/mp4">
+  </video>
+  <div class="bean-overlay"></div>
+  <div class="bean-content">
+    <p class="sec-label">04 · INTERIOR</p>
+    <h2 class="sec-title">인테리어</h2>
+    <p class="sec-desc">머신과 설비, 동선을 같이 보고 공간을 잡습니다. 계약을 진행하시면 컨설팅은 무상으로 지원합니다.</p>
+    <div class="bean-points">
+      <div class="bean-point">
+        <span class="point-num">01</span>
+        <div class="point-text">
+          <h4>공간과 동선부터 봅니다</h4>
+          <p>매장을 직접 보고 메뉴, 머신 위치, 손님이 움직이는 길을 같이 정합니다.</p>
+        </div>
+      </div>
+      <div class="bean-point">
+        <span class="point-num">02</span>
+        <div class="point-text">
+          <h4>도면으로 먼저 보여드립니다</h4>
+          <p>3D 도면으로 완성된 모습을 미리 보시고, 마음에 안 드는 부분은 공사 전에 고칩니다.</p>
+        </div>
+      </div>
+      <div class="bean-point">
+        <span class="point-num">03</span>
+        <div class="point-text">
+          <h4>공사와 마감까지 챙깁니다</h4>
+          <p>공사가 진행되는 동안 일정과 마감을 같이 확인합니다.</p>
+        </div>
+      </div>
     </div>
     <a href="contact.html" class="sec-btn">상담 문의 <span>→</span></a>
-  </div>
-  <div class="interior-slider-wrap">
-    <div class="interior-track" id="interiorTrack">
-      <div class="interior-slide"><img src="interior1.jpg" alt="인테리어 도면1"></div>
-      <div class="interior-slide"><img src="interior2.jpg" alt="인테리어 도면2"></div>
-      <div class="interior-slide"><img src="interior3.jpg" alt="인테리어 도면3"></div>
-      <div class="interior-slide"><img src="interior4.jpg" alt="인테리어 도면4"></div>
-    </div>
-  </div>
-  <div class="interior-controls">
-    <button class="interior-btn" id="interiorPrev">←</button>
-    <button class="interior-btn" id="interiorNext">→</button>
-    <div class="interior-dots" id="interiorDots"></div>
-  </div>
-  <div class="interior-note">
-    <p>카페의 동선과 장비 배치를 함께 설계하고 브랜드에 맞는 공간을 완성합니다. 3D 도면 제작부터 시공까지, 계약 진행 시 컨설팅을 무상으로 지원합니다.</p>
   </div>
 </section>
 
@@ -645,6 +643,7 @@
   <div class="footer-bottom">
     <p class="footer-copy">© 2026 ARDIVO. All rights reserved.</p>
     <div class="footer-links">
+      <a href="partner.html">제품 제안</a>
       <a href="terms.html">이용약관</a>
       <a href="privacy.html">개인정보처리방침</a>
     </div>
@@ -652,56 +651,6 @@
 </footer>
 
 <script>
-  // 머신 슬라이더
-  const machineTrack = document.getElementById('machineTrack');
-  const machineDots = document.getElementById('machineDots');
-  const slides = machineTrack.querySelectorAll('.machine-slide');
-  let machineIdx = 0;
-  const visibleCount = window.innerWidth <= 768 ? 1 : 3;
-  const maxIdx = slides.length - visibleCount;
-
-  slides.forEach((_, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'machine-dot' + (i === 0 ? ' active' : '');
-    dot.onclick = () => goMachine(i);
-    machineDots.appendChild(dot);
-  });
-
-  function goMachine(idx) {
-    machineIdx = Math.max(0, Math.min(idx, maxIdx));
-    const w = slides[0].offsetWidth;
-    machineTrack.style.transform = `translateX(-${machineIdx * w}px)`;
-    machineDots.querySelectorAll('.machine-dot').forEach((d, i) => d.classList.toggle('active', i === machineIdx));
-  }
-
-  document.getElementById('machinePrev').onclick = () => goMachine(machineIdx - 1);
-  document.getElementById('machineNext').onclick = () => goMachine(machineIdx + 1);
-
-  // 인테리어 슬라이더
-  const interiorTrack = document.getElementById('interiorTrack');
-  const interiorDots = document.getElementById('interiorDots');
-  const iSlides = interiorTrack.querySelectorAll('.interior-slide');
-  let interiorIdx = 0;
-  const iVisibleCount = window.innerWidth <= 768 ? 1 : 2;
-  const iMaxIdx = iSlides.length - iVisibleCount;
-
-  iSlides.forEach((_, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'interior-dot' + (i === 0 ? ' active' : '');
-    dot.onclick = () => goInterior(i);
-    interiorDots.appendChild(dot);
-  });
-
-  function goInterior(idx) {
-    interiorIdx = Math.max(0, Math.min(idx, iMaxIdx));
-    const w = iSlides[0].offsetWidth + 3;
-    interiorTrack.style.transform = `translateX(-${interiorIdx * w}px)`;
-    interiorDots.querySelectorAll('.interior-dot').forEach((d, i) => d.classList.toggle('active', i === interiorIdx));
-  }
-
-  document.getElementById('interiorPrev').onclick = () => goInterior(interiorIdx - 1);
-  document.getElementById('interiorNext').onclick = () => goInterior(interiorIdx + 1);
-
   // 햄버거 메뉴
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');

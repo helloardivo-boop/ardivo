@@ -31,10 +31,10 @@
     border-bottom: 1px solid rgba(192,192,192,0.15);
   }
   .nav-logo img { height: 44px; }
-  .nav-links { display: flex; gap: 40px; list-style: none; align-items: center; }
-  .nav-links a { color: var(--cream); text-decoration: none; font-size: 13px; letter-spacing: 3px; opacity: 0.8; transition: opacity 0.2s; display: flex; align-items: center; }
+  .nav-links { display: flex; gap: 24px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--cream); text-decoration: none; font-size: 13px; letter-spacing: 2px; opacity: 0.8; transition: opacity 0.2s; display: flex; align-items: center; }
   .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--red); }
-  .nav-right { display: flex; align-items: center; gap: 20px; margin-left: 40px; }
+  .nav-right { display: flex; align-items: center; gap: 20px; margin-left: 16px; }
   .nav-contact { font-size: 11px; letter-spacing: 2px; color: var(--cream); border: 1px solid rgba(192,192,192,0.4); padding: 10px 24px; text-decoration: none; transition: all 0.3s; }
   .nav-contact:hover { background: var(--red); border-color: var(--red); }
   .nav-sns { display: flex; align-items: center; gap: 16px; }
@@ -138,6 +138,14 @@
     .footer-right { text-align: left; }
     .footer-bottom { flex-direction: column; gap: 16px; }
   }
+
+  @media (max-width: 1100px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none !important; }
+    .nav-right { display: none !important; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+  }
 </style>
 </head>
 <body>
@@ -146,6 +154,8 @@
   <div class="nav-logo"><a href="index.html"><img src="logo.png" alt="ARDIVO"></a></div>
   <ul class="nav-links">
     <li><a href="about.html">ABOUT</a></li>
+    <li><a href="consulting.html">CONSULTING</a></li>
+    <li><a href="apartment.html">APARTMENT</a></li>
     <li><a href="products.html">PRODUCTS</a></li>
     <li><a href="process.html">PROCESS</a></li>
     <li><a href="studio.html" class="active">STUDIO</a></li>
@@ -166,6 +176,8 @@
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="about.html">ABOUT</a>
+  <a href="consulting.html">CONSULTING</a>
+  <a href="apartment.html">APARTMENT</a>
   <a href="products.html">PRODUCTS</a>
   <a href="process.html">PROCESS</a>
   <a href="studio.html" class="active">STUDIO</a>
@@ -264,6 +276,7 @@
   <div class="footer-bottom">
     <p class="footer-copy">© 2026 ARDIVO. All rights reserved.</p>
     <div class="footer-links">
+      <a href="partner.html">제품 제안</a>
       <a href="terms.html">이용약관</a>
       <a href="privacy.html">개인정보처리방침</a>
     </div>
